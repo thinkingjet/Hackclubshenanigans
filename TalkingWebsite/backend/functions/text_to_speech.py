@@ -1,5 +1,5 @@
 import requests, os
-ELEVEN_LABS_API_KEY = "7f155758d3a775aee9f4d1d1516c3673"
+ELEVEN_LABS_API_KEY = "*
 
 
 def convert_text_to_speech(message):

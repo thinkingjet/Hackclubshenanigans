@@ -4,7 +4,7 @@ from functions.database import get_recent_messages
 # TODO: The 'openai.organization' option isn't read in the client API. You will need to pass it when you instantiate the client, e.g. 'OpenAI(organization=os.getenv("OPEN_AI_ORG"))'
 
 from openai import OpenAI
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="*")
 
 
 # Open AI whisper STT
