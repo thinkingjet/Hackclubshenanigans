@@ -52,6 +52,7 @@ async def get_audio():
         raise HTTPException(status_code=400, detail="Failed to decode audio")
     
 # reset
+
 @app.get("/reset")
 async def reset_conversation():
     reset_messages()
