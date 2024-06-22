@@ -13,5 +13,4 @@ type Props = {
     );
   }
   
-  export default RecordIcon;
-  
+  export default RecordIcon;  
