@@ -50,7 +50,6 @@ async def get_audio():
     message_decoded = convert_audio_to_text(audio_input)
     if not message_decoded:
         raise HTTPException(status_code=400, detail="Failed to decode audio")
-<<<<<<< HEAD
     
 # reset
 
@@ -71,7 +70,6 @@ async def post_audio(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Failed to decode audio")
     chat_response = get_chat_response(message_decoded)
     store_messages(message_decoded, chat_response)
-=======
     chat_response = get_chat_response(message_decoded)
     store_messages(message_decoded, chat_response)
     print(chat_response)
@@ -82,4 +80,3 @@ async def post_audio(file: UploadFile = File(...)):
        yield audio_output
     return StreamingResponse(iterfile(), media_type="application/mpeg")
 
->>>>>>> 387c0116d9e5e128a56f519c4515067ec5c6b728
