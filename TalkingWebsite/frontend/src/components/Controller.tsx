@@ -22,4 +22,18 @@ const Controller = () => {
     .then(async (blob) => {
       const formData = new FormData();
       formData.append("file", blob, "myFile.wav");const messagesArr = [...messages, myMessage];
- 
+        {/* Recorder */}
+        <div className="fixed center-0 w-full py-12 text-center" 
+     >
+          <div className="flex justify-center items-center w-full">
+            <div>
+              <RecordMessage handleStop={handleStop} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Controller;
