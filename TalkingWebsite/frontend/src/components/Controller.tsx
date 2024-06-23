@@ -8,6 +8,7 @@ const Controller = () => {
   const [messages, setMessages] = useState<any[]>([]);
 
   function createBlobURL(data: any) {
+    
     const blob = new Blob([data], { type: "audio/mpeg" });
     const url = window.URL.createObjectURL(blob);
     return url;
@@ -16,9 +17,9 @@ const Controller = () => {
   const handleStop = async (blobUrl: string) => {
     setIsLoading(true);
     const myMessage = { sender: "me", blobUrl };
-    const messagesArr = [...messages, myMessage];
     fetch(blobUrl)
-      .then((res) => res.blob())
-      .then(async (blob) => {
-        const formData = new FormData();
-        formData.append("file", blob, "myFile.wav");
+    .then((res) => res.blob())
+    .then(async (blob) => {
+      const formData = new FormData();
+      formData.append("file", blob, "myFile.wav");const messagesArr = [...messages, myMessage];
+ 
