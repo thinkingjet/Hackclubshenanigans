@@ -1,4 +1,8 @@
 import { useState } from "react";
+import Title from "./Title";
+import axios from "axios";
+import RecordMessage from "./RecordMessage";
+
 const Controller = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
@@ -9,4 +13,12 @@ const Controller = () => {
     return url;
   }
 
-
+  const handleStop = async (blobUrl: string) => {
+    setIsLoading(true);
+    const myMessage = { sender: "me", blobUrl };
+    const messagesArr = [...messages, myMessage];
+    fetch(blobUrl)
+      .then((res) => res.blob())
+      .then(async (blob) => {
+        const formData = new FormData();
+        formData.append("file", blob, "myFile.wav");
