@@ -1,12 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
 
-function Title({ setMessages }: Props) {
-    const [isResetting, setIsResetting] = useState(false);
-  
-    const resetConversation = async () => {
-      setIsResetting(true);}}
 
+function Title({ setMessages }: Props) {
+  const [isResetting, setIsResetting] = useState(false);
+
+  const resetConversation = async () => {
+    setIsResetting(true);
+
+    await axios
+      .get("http://localhost:8000/reset", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        if (res.status == 200) {
+          setMessages([]);
+        }
 
 <div className="flex justify-between items-center w-full p-4 text-white font-bold shadow" style={{
       background: 'linear-gradient(to right, #2f2f2f, #1b1b1b, #2f2f2f)', 
