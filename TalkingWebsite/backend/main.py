@@ -41,22 +41,22 @@ async def check_health():
 
 
 #testing
-@app.get("/post-audio-get/")
-async def get_audio():
-    audio_input = open("voice.mp3", "rb")
-    message_decoded = convert_audio_to_text(audio_input)
-    message_decoded = convert_audio_to_text(audio_input)
-    if not message_decoded:
-        raise HTTPException(status_code=400, detail="Failed to decode audio")
-    chat_response = get_chat_response(message_decoded)
-    store_messages(message_decoded, chat_response)
-    print(chat_response)
-    audio_output = convert_text_to_speech(chat_response)
-    if not audio_output:
-        raise HTTPException(status_code=400, detail="Failed audio output")
-    def iterfile():
-       yield audio_output
-    return StreamingResponse(iterfile(), media_type="application/mpeg")
+# @app.get("/post-audio-get/")
+# async def get_audio():
+#     audio_input = open("voice.mp3", "rb")
+#     message_decoded = convert_audio_to_text(audio_input)
+#     message_decoded = convert_audio_to_text(audio_input)
+#     if not message_decoded:
+#         raise HTTPException(status_code=400, detail="Failed to decode audio")
+#     chat_response = get_chat_response(message_decoded)
+#     store_messages(message_decoded, chat_response)
+#     print(chat_response)
+#     audio_output = convert_text_to_speech(chat_response)
+#     if not audio_output:
+#         raise HTTPException(status_code=400, detail="Failed audio output")
+#     def iterfile():
+#        yield audio_output
+#     return StreamingResponse(iterfile(), media_type="application/mpeg")
 
 
     
