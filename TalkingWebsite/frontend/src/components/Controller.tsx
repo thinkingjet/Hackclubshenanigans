@@ -48,3 +48,73 @@ const Controller = () => {
           });
       });
   };
+
+  return (
+    <div className="h-screen overflow-y-hidden">
+      {/* Title */}
+      <Title setMessages={setMessages} />
+
+      <div className="flex flex-col justify-between h-full overflow-y-scroll pb-96">
+        {/* Conversation */}
+        <div className="mt-5 px-5">
+          {messages?.map((audio, index) => {
+            return (
+              <div
+                key={index + audio.sender}
+                className={
+                  "flex flex-col " +
+                  (audio.sender == "Janice" && "flex items-end")
+                }
+              >
+                {/* Sender */}
+                <div className="mt-4 ">
+                  <p
+                    className={
+                      audio.sender == "Janice"
+                        ? "text-right mr-2 italic text-green-500"
+                        : "ml-2 italic text-blue-500"
+                    }
+                  >
+                    {audio.sender}
+                  </p>
+
+                  {/* Message */}
+                  <audio
+                    src={audio.blobUrl}
+                    className="appearance-none"
+                    controls
+                  />
+                </div>
+              </div>
+            );
+          })}
+
+          {messages.length == 0 && !isLoading && (
+            <div className="text-center font-light italic mt-10" >
+              
+            </div>
+          )}
+
+          {isLoading && (
+            <div className="text-center font-light italic mt-10 animate-pulse">
+              
+              
+            </div>
+          )}
+        </div>
+
+        {/* Recorder */}
+        <div className="fixed center-0 w-full py-12 text-center" 
+     >
+          <div className="flex justify-center items-center w-full">
+            <div>
+              <RecordMessage handleStop={handleStop} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Controller;
