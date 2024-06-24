@@ -57,3 +57,25 @@ async def get_audio():
     def iterfile():
        yield audio_output
     return StreamingResponse(iterfile(), media_type="application/mpeg")
+
+# reset
+@app.get("/reset")
+async def reset_conversation():
+    reset_messages()
+    return {"response": "conversation reset"}
+
+
+
+@app.post("/post-audio/")
+async def post_audio(file: UploadFile = File(...)):
+    with open(file.filename, "wb") as buffer:
+        buffer.write(file.file.read())
+    audio_input = open(file.filename, "rb")
+    message_decoded = convert_audio_to_text(audio_input)
+    if not message_decoded:
+        raise HTTPException(status_code=400, detail="Failed to decode audio")
+    chat_response = get_chat_response(message_decoded)
+    store_messages(message_decoded, chat_response)
+    if not chat_response:
+        raise HTTPException(status_code=400, detail="Failed chat response")
+    print(chat_response)
