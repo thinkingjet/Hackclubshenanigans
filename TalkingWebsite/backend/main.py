@@ -64,6 +64,7 @@ async def check_health():
 @app.get("/reset")
 async def reset_conversation():
     reset_messages()
+    reset_messages()
     return {"response": "conversation reset"}
 
 
