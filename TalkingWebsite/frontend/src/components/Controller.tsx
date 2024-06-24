@@ -12,38 +12,7 @@ const Controller = () => {
     return URL.createObjectURL(blob);
   };
 
-  const handleStop = async (blobUrl) => {
-    setIsLoading(true);
-
-    try {
-      const myMessage = { sender: "me", blobUrl };
-      const messagesArr = [...messages, myMessage];
-
-      const response = await fetch(blobUrl);
-      const blob = await response.blob();
-
-      const formData = new FormData();
-      formData.append("file", blob, "myFile.wav");
-
-      const res = await axios.post("http://localhost:8000/post-audio", formData, {
-        headers: {
-          "Content-Type": "audio/mpeg",
-        },
-        responseType: "arraybuffer",
-      });
-
-      const audioBlob = res.data;
-      const audio = new Audio();
-      audio.src = createBlobURL(audioBlob);
-
-      const janiceMessage = { sender: "Janice", blobUrl: audio.src };
-      setMessages([...messagesArr, janiceMessage]);
-
-    } catch (error) {
-      console.error("Error posting audio:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  
   };
 
   return (
