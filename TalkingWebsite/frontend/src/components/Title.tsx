@@ -6,6 +6,19 @@ type Props = {
 };
 
 // Title component to display the header and reset button
+/**
+ * The Title component serves as the header for the application and includes a reset button.
+ * When the reset button is clicked, it triggers an API call to reset the conversation.
+ * 
+ * Props:
+ * - setMessages: Function to update the messages state in the parent component.
+ * 
+ * The component maintains an internal state `isResetting` to handle the loading state while 
+ * the reset operation is in progress. The resetConversation function makes an asynchronous 
+ * GET request to the reset endpoint and, upon success, clears the messages by calling setMessages 
+ * with an empty array. It also manages the visual feedback for the reset button using a pulsing 
+ * animation during the reset process.
+ */
 function Title({ setMessages }: Props) {
   // State hook to manage the resetting status
   const [isResetting, setIsResetting] = useState(false);
