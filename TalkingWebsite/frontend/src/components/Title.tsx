@@ -5,11 +5,14 @@ type Props = {
   setMessages: any;
 };
 
+// Title component to display the header and reset button
 function Title({ setMessages }: Props) {
+  // State hook to manage the resetting status
   const [isResetting, setIsResetting] = useState(false);
 
+  // Function to reset the conversation by calling the reset endpoint
   const resetConversation = async () => {
-    setIsResetting(true);
+    setIsResetting(true); // Set resetting status to true
 
     await axios
       .get("http://localhost:8000/reset", {
@@ -19,28 +22,33 @@ function Title({ setMessages }: Props) {
       })
       .then((res) => {
         if (res.status == 200) {
-          setMessages([]);
+          setMessages([]); // Clear the messages if the reset was successful
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.error(err); // Log any errors
+      });
 
-    setIsResetting(false);
+    setIsResetting(false); // Set resetting status to false
   };
 
   return (
-<div className="flex justify-between items-center w-full p-4 text-white font-bold shadow" style={{
-      background: 'linear-gradient(to right, #2f2f2f, #1b1b1b, #2f2f2f)', 
-      color: '#ffffff', 
-      padding: '20px',
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
-      border: '1px solid #ffffff'
-    }}>
+    <div
+      className="flex justify-between items-center w-full p-4 text-white font-bold shadow"
+      style={{
+        background: 'linear-gradient(to right, #2f2f2f, #1b1b1b, #2f2f2f)', 
+        color: '#ffffff', 
+        padding: '20px',
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+        border: '1px solid #ffffff'
+      }}
+    >
       <div className="italic">Tesla AI Sales Rep</div>
       <button
         onClick={resetConversation}
         className={
           "transition-all duration-300 text-blue-300 hover:text-pink-500 " +
-          (isResetting && "animate-pulse")
+          (isResetting && "animate-pulse") // Add a pulsing animation if resetting
         }
       >
         <svg
