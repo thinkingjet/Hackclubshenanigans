@@ -19,3 +19,32 @@ BLOCKQUOTE {margin-left: 40px; margin-right: 40px}
 .contents {font-family: verdana; text-align: center; font-size: 10px; color: #000000; padding-right: 8px; padding-left: 10px;}
 .forumlist {font-family: verdana; font-size: 10px; color: #000000; border: 1px solid #353535;}
 .tinytext {font-family: verdana; text-align: center; font-size: 8px; color: #202020}
+.poll {font-family: verdana; font-size: 10px; color: #000000; text-align: left; background-color: #FFFFFF; border: 1px solid gray}
+.amazon {font-family: verdana; font-size: 10px; color: #000000; text-align: center; background-color: #FFFFFF; border: 1px solid gray; padding-right: 5px; padding-left: 5px; padding-top: 5px; padding-bottom: 5px;}
+.commentsBlock {font-size: 12px; border: 1px solid #353535; background-color: #FFFFFF; color: #000000; font-family: courier new}
+.indexPortal {font-size: 11px; border: 1px solid #353535; background-color: #FFFFFF; color: #000000; font-family: verdana; padding-right: 5px; padding-left: 5px; text-align: justify}
+em {
+  text-emphasis: triangle;
+  font-style: normal;
+}
+
+.emphasis-1 {
+  text-emphasis: filled double-circle deeppink;
+}
+
+.emphasis-2 {
+  text-emphasis: open triangle rebeccapurple;
+  text-emphasis-position: under;
+}
+
+.emphasis-3 {
+  text-emphasis: filled sesame blue;
+}
+
+.emphasis-4 {
+  text-emphasis: '$' lime;
+}
+
+.emphasis-5 {
+  text-emphasis: '💩';
+}
