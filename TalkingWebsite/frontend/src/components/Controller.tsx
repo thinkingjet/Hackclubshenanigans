@@ -122,3 +122,21 @@ const Controller = () => {
 };
 
 export default Controller;
+
+
+// The Controller component manages the core functionality of 
+// the application, including recording, handling, and playing audio messages. 
+// It uses state hooks to track the loading status and the array of messages. 
+// The createBlobURL function generates a URL for the audio blob data. 
+// The handleStop function is called when recording stops, sending 
+// the audio data to the server and playing the response. 
+// The component renders the Title and RecordMessage components, 
+// and dynamically displays the recorded messages.
+//  It also handles loading indicators and empty state messages, 
+//  ensuring a smooth user experience.
+
+
+
+
+
+
