@@ -1,2 +1,21 @@
 A { padding: 0px 3px 0px 3px;}
 A:link { text-decoration: none; color:#AA0000;}
+A:visited { text-decoration: none; color:#990000;}
+A:active { text-decoration: none; color: red}
+A:hover { text-decoration: underline; color:#FF0000;}
+H1 {font-family: courier new; font-size: 25px; letter-spacing: 3px; color: #000000; text-align: center}
+H2 {font-family: courier new; font-size: 18px; color: #000000; text-align: center; letter-spacing: 2px}
+H4 {font-family: courier new; font-size: 14px; color: #000000; text-align: center}
+H5 {font-family: courier new; font-size: 12px; color: #000000; text-align: center; letter-spacing: 2px}
+H6 {font-family: courier new; font-size: 11px; color: #000000}
+TABLE {font-family: courier new,courier; text-align: left; font-size: 12px; color: #000000;}
+BODY { background-color: #F4F4F4; margin-left: 0px; margin-top: 0px; SCROLLBAR-BASE-COLOR: #303030; SCROLLBAR-ARROW-COLOR: #FFFFFF;}
+
+input,select,textarea {font-size: 12px; border: 1px solid black; background-color: #999999; color: #111111; font-family: courier new}
+.mainshit {font-family: courier new,courier; text-align: justify; font-size: 14px; color: #000000; padding-right: 20px; padding-left: 20px;}
+BLOCKQUOTE {margin-left: 40px; margin-right: 40px}
+.indexpage {font-family: verdana; font-size: 10px; color: #000000;  text-align: justify}
+.LoginForm {font-family: verdana; font-size: 10px;}
+.contents {font-family: verdana; text-align: center; font-size: 10px; color: #000000; padding-right: 8px; padding-left: 10px;}
+.forumlist {font-family: verdana; font-size: 10px; color: #000000; border: 1px solid #353535;}
+.tinytext {font-family: verdana; text-align: center; font-size: 8px; color: #202020}
