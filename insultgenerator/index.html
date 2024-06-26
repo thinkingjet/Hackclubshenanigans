@@ -338,3 +338,100 @@ function RandomDog(){
  	else if (seconds <60)
 		return "pus-lipped "
 }
+
+function RandomIntenseEnd(){
+
+	if (seconds <15)
+		return "smelly-assed "
+	else if (seconds <23)
+		return "trashy "
+	else if (seconds <29)
+		return "rectum-sniffing "
+	else if (seconds <41)
+		return "puke-worthy "
+	else if (seconds <52)
+		return "village idiot "
+	else if (seconds <60)
+		return "gutter-smelling "
+}
+
+function RandomEnd(){
+
+	if (seconds <15)
+		return "garbage-like "
+	else if (seconds <23)
+		return "damn "
+	else if (seconds <29)
+		return "lame "
+	else if (seconds <41)
+		return "pathetic "
+	else if (seconds <52)
+		return "pathetic "
+	else if (seconds <60)
+		return "fart-sniffing "
+}
+
+function General(){
+	if (S==1)
+	return ""
+	else if (S==2)
+	return "damn "
+	else if(S==3)
+	return RandomEnd()
+	else if (S==0)
+	return ""}
+
+function Gender(){
+	if (G==1)
+	return RandomMale()
+	else if (G==2)
+	return RandomFemale()
+	else if (G==3)
+	return RandomNeutral()
+	else if (G==0)
+	return RandomNeutral()}
+
+function BadHabit(){
+	if (P==1)
+	return RandomHomework()
+	else if (P==2)
+	return RandomUnfair()
+	else if (P==3)
+	return RandomBadMemory()
+	else if (P==0)
+	return ""}
+
+function Intelligence(){
+	if (I==1)
+	return RandomSmart()
+	else if (I==2)
+	return ""
+	else if (I==3)
+	return RandomStupid()
+	else if (I==0)
+	return ""}
+
+function Weight(){
+	if (W==1)
+	return RandomFat()
+
+	else if (W==2)
+	return ""
+	else if (W==3)
+	return RandomSkinny()
+	else if (W==0)
+	return ""}
+
+function Looks(){
+	if (L==1)
+	return RandomHot()
+	else if (L==2)
+	return ""
+	else if (L==3)
+	return RandomDog()
+	else if (L==0)
+	return ""}
+
+function Ending(){
+	return RandomIntenseEnd()
+	}
