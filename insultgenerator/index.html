@@ -46,3 +46,39 @@ alert(Insult)
 }
 
 
+function BuildInsult(){
+currentdate = new Date ()
+seconds = currentdate.getSeconds()
+
+if (S==1)
+Insult = teachername() + " is a " + BadHabit() + Intelligence() + Weight() + Looks() + Gender() + "!!!!"
+else if (S==2)
+Insult = teachername() + " is a " + BadHabit() + Intelligence() + Weight() + Looks() + Ending() + Gender() + "!!!!"
+else if(S==3)
+Insult = teachername() + " is a " + RandomEnd() + BadHabit() + Intelligence() + Weight() + Looks() + Ending() + Gender() + "!!!!"
+else if (S==0)
+Insult = teachername() + " is a " + BadHabit() + Intelligence() + Weight() + Looks() + Gender() + "!!!!"
+}
+
+
+function teachername()
+{
+return tname
+}
+
+function changename()
+{
+tname=prompt("Enter your teacher's name:","");
+}
+
+function RandomMale(){
+
+	if (seconds <6)
+		return "dumb "
+	else if (seconds <11)
+		return "barking "
+	else if (seconds <16)
+		return "stupid "
+
+
+
