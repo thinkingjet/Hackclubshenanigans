@@ -242,3 +242,36 @@ body {
   background-size: 60px 10px, 30px 30px, 10px 30px, 10px 10px, 30px 20px, 30px 10px, 30px 10px, 10px 10px, 40px 10px, 30px 10px, 60px 20px, 80px 10px;
   background-position: 10px 0px, 0px 10px, 30px 10px, 40px 10px, 50px 10px, 40px 30px, 40px 40px, 70px 40px, 0px 50px, 50px 50px, 10px 60px, 0px 60px;
 }
+.four {
+  background-image: linear-gradient(to top, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #00a2e2, #00a2e2), linear-gradient(to top, #09c5d8, #09c5d8), linear-gradient(to top, #3d060a 10px, #00a323 10px, #00a323 30px, #09c5d8 30px, #09c5d8 40px, #00a2e2 40px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to top, #3d060a, #3d060a);
+  background-size: 10px 30px, 10px 30px, 10px 10px, 20px 10px, 20px 80px, 80px 10px, 80px 10px, 10px 80px;
+  background-position: 30px 10px, 20px 20px, 10px 30px, 0px 40px, 40px 0px, 0px 50px, 0px 60px, 60px 0px;
+}
+.five {
+  background-image: linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #09c5d8, #09c5d8), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to top, #3d060a, #3d060a);
+  background-size: 80px 10px, 40px 20px, 80px 10px, 70px 10px, 20px 10px, 80px 10px, 30px 10px, 70px 10px, 60px 10px;
+  background-position: 0px 0px, 0px 10px, 0px 10px, 0px 30px, 50px 40px, 0px 40px, 50px 50px, 0px 60px, 0px 70px;
+}
+.six {
+  background-image: linear-gradient(to top, #3d060a 10px, #00a323 10px, #00a323 20px, #09c5d8 20px, #09c5d8 30px, #00a2e2 30px), linear-gradient(to top, #3d060a 10px, #00a323 10px, #00a323 30px, #09c5d8 30px, #09c5d8 40px, #00a2e2 40px), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #09c5d8 10px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to top, #3d060a, #3d060a);
+  background-size: 10px 60px, 20px 80px, 40px 10px, 10px 10px, 30px 10px, 30px 10px, 40px 10px, 10px 10px, 30px 10px, 30px 10px, 40px 10px, 10px 80px, 30px 10px;
+  background-position: 0px 10px, 10px 0px, 30px 0px, 40px 10px, 50px 10px, 50px 20px, 30px 30px, 40px 40px, 50px 40px, 50px 50px, 30px 60px, 30px 0px, 40px 70px;
+}
+.seven {
+  background-image: linear-gradient(to top, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #09c5d8 10px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to top, #3d060a, #3d060a);
+  background-size: 20px 20px, 40px 30px, 30px 30px, 30px 10px, 30px 10px, 30px 20px, 30px 10px;
+  background-position: 30px 0px, 0px 0px, 50px 0px, 40px 30px, 30px 40px, 20px 50px, 20px 70px;
+}
+.eight {
+  background-image: linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #09c5d8 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #09c5d8 10px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to top, #3d060a 10px, #00a323 10px), linear-gradient(to top, #3d060a, #3d060a);
+  background-size: 60px 10px, 40px 20px, 10px 10px, 30px 20px, 60px 10px, 40px 10px, 10px 10px, 30px 10px, 40px 10px, 30px 10px, 50px 20px, 70px 10px;
+  background-position: 10px 0px, 0px 10px, 40px 10px, 50px 10px, 10px 30px, 0px 40px, 40px 40px, 50px 40px, 0px 50px, 50px 50px, 10px 60px, 0px 60px;
+}
+.nine {
+  background-image: linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to right, #3d060a 10px, #00a2e2 10px), linear-gradient(to top, #3d060a, #3d060a), linear-gradient(to left, #3d060a 10px, #00a2e2 10px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to left, #3d060a 10px, #00a323 10px), linear-gradient(to top, #3d060a, #3d060a);
+  background-size: 60px 10px, 40px 20px, 10px 10px, 30px 30px, 50px 10px, 40px 10px, 30px 10px, 30px 10px, 60px 10px, 50px 10px;
+  background-position: 10px 0px, 0px 10px, 40px 10px, 50px 10px, 0px 30px, 10px 40px, 50px 40px, 50px 50px, 10px 60px, 10px 70px;
+}
+.hide {
+	display: none;
+}
