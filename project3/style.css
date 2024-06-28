@@ -200,20 +200,37 @@ p {
 }
 
 .progress {
-    width: 50%;
     height: 20px;
     background-color: #76c7c0;
     border-radius: 10px 0 0 10px;
-    animation: progressAnimation 2s ease-out;
+    width: 0%;
+    transition: width 0.3s ease;
 }
 
-@keyframes progressAnimation {
-    from {
-        width: 0;
-    }
-    to {
-        width: 50%;
-    }
+.points-system {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.points-system p {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.points-system button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.points-system button:hover {
+    background-color: #0056b3;
 }
 
 form {

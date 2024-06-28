@@ -51,4 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
     featureCards.forEach(card => {
         observer.observe(card);
     });
+
+    // Points system
+    const pointsDisplay = document.getElementById('points');
+    const progressBar = document.getElementById('progress-bar');
+    let points = 0;
+
+    document.getElementById('increment-points').addEventListener('click', () => {
+        points += 10;
+        pointsDisplay.textContent = points;
+        progressBar.style.width = `${Math.min(points, 100)}%`;
+    });
 });
