@@ -9,6 +9,7 @@
 <body>
     <header>
         <nav>
+            <div class="logo">MyLogo</div>
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#features">Features</a></li>
@@ -20,15 +21,47 @@
     <main id="home">
         <section class="hero">
             <h1>Welcome to the Gamified Landing Page</h1>
+            <p>Experience the fun and interactive world of gamification.</p>
+            <a href="#features" class="cta-button">Learn More</a>
         </section>
         <section id="features" class="features">
-            <!-- Features will go here -->
+            <h2>Features</h2>
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <img src="images/icon1.png" alt="Feature 1">
+                    <h3>Feature 1</h3>
+                    <p>Description of feature 1.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="images/icon2.png" alt="Feature 2">
+                    <h3>Feature 2</h3>
+                    <p>Description of feature 2.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="images/icon3.png" alt="Feature 3">
+                    <h3>Feature 3</h3>
+                    <p>Description of feature 3.</p>
+                </div>
+            </div>
         </section>
         <section id="game" class="game">
-            <!-- Game mechanics will go here -->
+            <h2>Game Mechanics</h2>
+            <p>Our gamification system includes points, badges, and levels to keep you engaged.</p>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
         </section>
         <section id="contact" class="contact">
-            <!-- Contact section will go here -->
+            <h2>Contact Us</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
         </section>
     </main>
     <script src="js/script.js"></script>
