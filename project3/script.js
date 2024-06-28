@@ -33,4 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     typeWriter();
+
+    // Animate feature cards on scroll
+    const featureCards = document.querySelectorAll('.feature-card');
+    const observerOptions = {
+        threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fadeInUp');
+            }
+        });
+    }, observerOptions);
+
+    featureCards.forEach(card => {
+        observer.observe(card);
+    });
 });
