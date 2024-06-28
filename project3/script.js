@@ -61,5 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
         points += 10;
         pointsDisplay.textContent = points;
         progressBar.style.width = `${Math.min(points, 100)}%`;
+
+        // Play sound effect on button click
+        const clickSound = document.getElementById('click-sound');
+        clickSound.currentTime = 0;
+        clickSound.play();
     });
 });
+
