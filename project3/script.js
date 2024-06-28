@@ -13,4 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // Typewriter effect for hero text
+    const heroTitle = document.getElementById('hero-title');
+    const heroTagline = document.getElementById('hero-tagline');
+    const heroText = heroTitle.textContent;
+    heroTitle.textContent = '';
+
+    let index = 0;
+
+    function typeWriter() {
+        if (index < heroText.length) {
+            heroTitle.textContent += heroText.charAt(index);
+            index++;
+            setTimeout(typeWriter, 100);
+        } else {
+            heroTagline.classList.add('fadeIn');
+        }
+    }
+
+    typeWriter();
 });
