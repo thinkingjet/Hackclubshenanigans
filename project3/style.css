@@ -273,3 +273,31 @@ button:hover {
         opacity: 1;
     }
 }
+/* css/style.css */
+
+
+.leaderboard {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.leaderboard h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+}
+
+#leaderboard-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    font-size: 1.2em;
+}

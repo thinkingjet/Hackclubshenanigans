@@ -69,3 +69,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Function to update leaderboard
+function updateLeaderboard(username, points) {
+    const leaderboardList = document.getElementById('leaderboard-list');
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `
+        <span>${username}</span>
+        <span>${points} points</span>
+    `;
+    leaderboardList.appendChild(listItem);
+}
+
+// Example usage:
+// Call updateLeaderboard(username, points) when points are updated
+// updateLeaderboard('User123', 50);
