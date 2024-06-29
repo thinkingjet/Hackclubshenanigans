@@ -450,3 +450,30 @@ button:hover {
     padding: 5px 0;
     font-size: 1.2em;
 }
+
+.achievements {
+    margin-top: 20px;
+}
+
+.achievements h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.achievements ul {
+    list-style: none;
+    padding: 0;
+}
+
+.achievements li {
+    padding: 5px 0;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+}
+
+.achievement-badge {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}

@@ -284,3 +284,145 @@ document.addEventListener('DOMContentLoaded', () => {
         avatarImg.src = savedAvatar;
     }
 });
+
+
+
+// js/script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Document is ready');
+
+    // Fetch leaderboard data
+    fetch('http://localhost:3000/users')
+        .then(response => response.json())
+        .then(users => {
+            users.forEach(user => {
+                updateLeaderboard(user.username, user.points);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    const pointsDisplay = document.getElementById('points');
+    const progressBar = document.getElementById('progress-bar');
+    const achievementsList = document.getElementById('achievements-list');
+    let points = 0;
+    const username = 'CurrentUser'; // Replace with dynamic username as needed
+
+    document.getElementById('increment-points').addEventListener('click', () => {
+        points += 10;
+        pointsDisplay.textContent = points;
+        progressBar.style.width = `${Math.min(points, 100)}%`;
+
+        // Play sound effect on button click
+        const clickSound = document.getElementById('click-sound');
+        clickSound.currentTime = 0;
+        clickSound.play();
+
+        // Update points on the server
+        fetch(`http://localhost:3000/users/1`, { // Replace with dynamic user ID as needed
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ points })
+        })
+        .then(response => response.json())
+        .then(updatedUser => {
+            // Clear existing leaderboard
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+
+            // Fetch updated leaderboard data
+            fetch('http://localhost:3000/users')
+                .then(response => response.json())
+                .then(users => {
+                    users.forEach(user => {
+                        updateLeaderboard(user.username, user.points);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+
+            // Check and award achievements
+            checkAchievements(points);
+        })
+        .catch(error => console.error('Error updating data:', error));
+    });
+
+    // Function to update leaderboard
+    function updateLeaderboard(username, points) {
+        const leaderboardList = document.getElementById('leaderboard-list');
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <span>${username}</span>
+            <span>${points} points</span>
+        `;
+        leaderboardList.appendChild(listItem);
+    }
+
+    // Function to check and award achievements
+    function checkAchievements(points) {
+        const achievements = [
+            { threshold: 50, name: 'Beginner', badge: 'badge1.png' },
+            { threshold: 100, name: 'Intermediate', badge: 'badge2.png' },
+            { threshold: 200, name: 'Advanced', badge: 'badge3.png' }
+        ];
+
+        achievements.forEach(achievement => {
+            if (points >= achievement.threshold) {
+                awardAchievement(achievement.name, achievement.badge);
+            }
+        });
+    }
+
+    // Function to award an achievement
+    function awardAchievement(name, badge) {
+        const existingAchievement = document.querySelector(`#achievements-list li[data-name="${name}"]`);
+        if (!existingAchievement) {
+            const listItem = document.createElement('li');
+            listItem.setAttribute('data-name', name);
+            listItem.innerHTML = `
+                <img src="${badge}" alt="${name} Badge" class="achievement-badge">
+                <span>${name}</span>
+            `;
+            achievementsList.appendChild(listItem);
+            // Save achievement to local storage
+            const savedAchievements = JSON.parse(localStorage.getItem('achievements')) || [];
+            savedAchievements.push({ name, badge });
+            localStorage.setItem('achievements', JSON.stringify(savedAchievements));
+        }
+    }
+
+    // Load achievements from local storage
+    const savedAchievements = JSON.parse(localStorage.getItem('achievements')) || [];
+    savedAchievements.forEach(achievement => {
+        awardAchievement(achievement.name, achievement.badge);
+    });
+
+    // Avatar selection and upload
+    const avatarImg = document.getElementById('avatar-img');
+    const avatarUpload = document.getElementById('avatar-upload');
+    const changeAvatarButton = document.getElementById('change-avatar');
+
+    changeAvatarButton.addEventListener('click', () => {
+        avatarUpload.click();
+    });
+
+    avatarUpload.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                avatarImg.src = e.target.result;
+                // Save avatar to local storage or send to server
+                localStorage.setItem('userAvatar', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Load avatar from local storage
+    const savedAvatar = localStorage.getItem('userAvatar');
+    if (savedAvatar) {
+        avatarImg.src = savedAvatar;
+    }
+});
