@@ -19,6 +19,28 @@
         </nav>
     </header>
     <main id="home">
+
+        <section id="profile" class="profile">
+            <h2>Your Profile</h2>
+            <div class="profile-container">
+                <div class="avatar">
+                    <img id="avatar-img" src="default-avatar.png" alt="Avatar">
+                    <input type="file" id="avatar-upload" style="display:none;">
+                    <button id="change-avatar">Change Avatar</button>
+                </div>
+                <div class="user-info">
+                    <p><strong>Username:</strong> <span id="profile-username">CurrentUser</span></p>
+                    <p><strong>Points:</strong> <span id="profile-points">0</span></p>
+                    <div class="achievements">
+                        <h3>Achievements</h3>
+                        <ul id="achievements-list">
+                            <!-- Achievements will be dynamically added here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <section class="hero">
             <div class="hero-content">
                 <h1 id="hero-title">Welcome to the Gamified Landing Page</h1>
@@ -70,6 +92,8 @@
                 <button type="submit">Send Message</button>
             </form>
         </section>
+
+        
     </main>
     <script src="js/script.js"></script>
 </body>
