@@ -52,7 +52,7 @@ def draw_goal():
 def move_player(dx, dy):
     new_x = player_position[0] + dx
     new_y = player_position[1] + dy
-    if MAZE[new_y][new_x] == 0:
+    if (0 <= new_x < len(MAZE[0])) and (0 <= new_y < len(MAZE)) and (MAZE[new_y][new_x] == 0):
         player_position[0] = new_x
         player_position[1] = new_y
 
