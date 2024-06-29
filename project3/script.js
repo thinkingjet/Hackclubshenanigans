@@ -83,3 +83,106 @@ function updateLeaderboard(username, points) {
 // Example usage:
 // Call updateLeaderboard(username, points) when points are updated
 // updateLeaderboard('User123', 50);
+// js/script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Document is ready');
+
+    // Fetch leaderboard data
+    fetch('http://localhost:3000/users')
+        .then(response => response.json())
+        .then(users => {
+            users.forEach(user => {
+                updateLeaderboard(user.username, user.points);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    // Function to update leaderboard
+    function updateLeaderboard(username, points) {
+        const leaderboardList = document.getElementById('leaderboard-list');
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <span>${username}</span>
+            <span>${points} points</span>
+        `;
+        leaderboardList.appendChild(listItem);
+    }
+
+    // Example usage:
+    // Call updateLeaderboard(username, points) when points are updated
+    // updateLeaderboard('User123', 50);
+
+    // Other existing functions...
+});
+
+// js/script.js
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Document is ready');
+
+    // Fetch leaderboard data
+    fetch('http://localhost:3000/users')
+        .then(response => response.json())
+        .then(users => {
+            users.forEach(user => {
+                updateLeaderboard(user.username, user.points);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    // Existing code...
+
+    const pointsDisplay = document.getElementById('points');
+    const progressBar = document.getElementById('progress-bar');
+    let points = 0;
+    const username = 'CurrentUser'; // Replace with dynamic username as needed
+
+    document.getElementById('increment-points').addEventListener('click', () => {
+        points += 10;
+        pointsDisplay.textContent = points;
+        progressBar.style.width = `${Math.min(points, 100)}%`;
+
+        // Play sound effect on button click
+        const clickSound = document.getElementById('click-sound');
+        clickSound.currentTime = 0;
+        clickSound.play();
+
+        // Update points on the server
+        fetch(`http://localhost:3000/users/1`, { // Replace with dynamic user ID as needed
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ points })
+        })
+        .then(response => response.json())
+        .then(updatedUser => {
+            // Clear existing leaderboard
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+
+            // Fetch updated leaderboard data
+            fetch('http://localhost:3000/users')
+                .then(response => response.json())
+                .then(users => {
+                    users.forEach(user => {
+                        updateLeaderboard(user.username, user.points);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        })
+        .catch(error => console.error('Error updating data:', error));
+    });
+
+    // Function to update leaderboard
+    function updateLeaderboard(username, points) {
+        const leaderboardList = document.getElementById('leaderboard-list');
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <span>${username}</span>
+            <span>${points} points</span>
+        `;
+        leaderboardList.appendChild(listItem);
+    }
+});
