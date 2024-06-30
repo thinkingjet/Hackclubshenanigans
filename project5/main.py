@@ -123,7 +123,7 @@ def move_along_path(path):
         draw_player()
         draw_path(path)
         pygame.display.flip()
-        time.sleep(0.5)  # Pause to visualize the movement
+        time.sleep(0.1)  # Reduced pause for smoother movement
 
 # Game loop
 running = True
@@ -135,12 +135,16 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 move_player(-1, 0)
+                path = astar(MAZE, tuple(player_position), tuple(goal_position))
             elif event.key == pygame.K_RIGHT:
                 move_player(1, 0)
+                path = astar(MAZE, tuple(player_position), tuple(goal_position))
             elif event.key == pygame.K_UP:
                 move_player(0, -1)
+                path = astar(MAZE, tuple(player_position), tuple(goal_position))
             elif event.key == pygame.K_DOWN:
                 move_player(0, 1)
+                path = astar(MAZE, tuple(player_position), tuple(goal_position))
             elif event.key == pygame.K_SPACE:
                 auto_move = True
     
