@@ -211,3 +211,134 @@ body {
     color: #555;
     margin-top: 10px;
 }
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.quiz-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.question-container {
+    margin-bottom: 20px;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.next-btn {
+    background-color: #28a745;
+}
+
+.next-btn:hover {
+    background-color: #218838;
+}
+
+.correct {
+    background-color: #28a745 !important;
+    pointer-events: none;
+    animation: correctAnswer 0.5s ease-in-out;
+}
+
+.wrong {
+    background-color: #dc3545 !important;
+    pointer-events: none;
+    animation: wrongAnswer 0.5s ease-in-out;
+}
+
+.hide {
+    display: none;
+}
+
+#answer-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    width: 100%;
+    max-width: 200px;
+}
+
+#question {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+#score {
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+#feedback {
+    font-size: 1em;
+    color: #555;
+    margin-top: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes correctAnswer {
+    from {
+        background-color: #fff;
+    }
+    to {
+        background-color: #28a745;
+    }
+}
+
+@keyframes wrongAnswer {
+    from {
+        background-color: #fff;
+    }
+    to {
+        background-color: #dc3545;
+    }
+}
