@@ -3,6 +3,7 @@
 import pygame
 import sys
 import heapq
+import time
 
 # Initialize Pygame
 pygame.init()
@@ -78,7 +79,7 @@ def astar(maze, start, goal):
             while current in came_from:
                 data.append(current)
                 current = came_from[current]
-            return data
+            return data[::-1]  # Reverse the path
         
         close_set.add(current)
         for i, j in neighbors:
@@ -112,8 +113,21 @@ def draw_path(path):
         for position in path:
             pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(position[1] * GRID_SIZE, position[0] * GRID_SIZE, GRID_SIZE, GRID_SIZE))
 
+def move_along_path(path):
+    for position in path:
+        player_position[0], player_position[1] = position[1], position[0]
+        # Redraw the screen
+        screen.fill(BACKGROUND_COLOR)
+        draw_maze()
+        draw_goal()
+        draw_player()
+        draw_path(path)
+        pygame.display.flip()
+        time.sleep(0.5)  # Pause to visualize the movement
+
 # Game loop
 running = True
+auto_move = False
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -127,6 +141,8 @@ while running:
                 move_player(0, -1)
             elif event.key == pygame.K_DOWN:
                 move_player(0, 1)
+            elif event.key == pygame.K_SPACE:
+                auto_move = True
     
     # Fill the background
     screen.fill(BACKGROUND_COLOR)
@@ -145,6 +161,10 @@ while running:
     
     # Update the display
     pygame.display.flip()
+    
+    if auto_move:
+        move_along_path(path)
+        auto_move = False
 
 # Quit Pygame
 pygame.quit()
