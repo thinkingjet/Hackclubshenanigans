@@ -3,6 +3,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import numpy as np
+import time
 
 # Initialize Pygame and OpenGL
 def init():
@@ -95,6 +96,10 @@ maze_layout = np.array([
 start_pos = [1, 0, 1]
 end_pos = [7, 0, 5]
 
+# Define obstacles and power-ups
+obstacles = [[3, 0, 3], [5, 0, 1]]
+power_ups = [[2, 0, 4], [6, 0, 2]]
+
 def draw_maze(wall_texture):
     for z, layer in enumerate(maze_layout):
         for x, value in enumerate(layer):
@@ -122,11 +127,33 @@ def draw_end_point():
     draw_cube(0)
     glPopMatrix()
 
+def draw_obstacles():
+    glColor3f(1, 0, 0)  # Red color for obstacles
+    for obstacle in obstacles:
+        glPushMatrix()
+        glTranslatef(obstacle[0], obstacle[1], obstacle[2])
+        draw_cube(0)
+        glPopMatrix()
+
+def draw_power_ups():
+    glColor3f(0, 0, 1)  # Blue color for power-ups
+    for power_up in power_ups:
+        glPushMatrix()
+        glTranslatef(power_up[0], power_up[1], power_up[2])
+        draw_cube(0)
+        glPopMatrix()
+
 # Check for collisions
 def can_move(x, z):
     if maze_layout[int(z / 2)][int(x / 2)] == 0:
         return True
     return False
+
+def is_obstacle(x, z):
+    return [x, 0, z] in obstacles
+
+def is_power_up(x, z):
+    return [x, 0, z] in power_ups
 
 # Update the camera to follow the player
 def update_camera():
@@ -140,6 +167,8 @@ def main():
     wall_texture = load_texture('textures/wall_texture.png')
     player_texture = load_texture('textures/player_texture.png')
     score = 0
+    start_time = time.time()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -147,26 +176,29 @@ def main():
                 quit()
 
         keys = pygame.key.get_pressed()
+        new_pos = player_pos.copy()
         if keys[pygame.K_LEFT]:
-            if can_move(player_pos[0] - player_speed, player_pos[2]):
-                player_pos[0] -= player_speed
-                score += 1
+            new_pos[0] -= player_speed
         if keys[pygame.K_RIGHT]:
-            if can_move(player_pos[0] + player_speed, player_pos[2]):
-                player_pos[0] += player_speed
-                score += 1
+            new_pos[0] += player_speed
         if keys[pygame.K_UP]:
-            if can_move(player_pos[0], player_pos[2] - player_speed):
-                player_pos[2] -= player_speed
-                score += 1
+            new_pos[2] -= player_speed
         if keys[pygame.K_DOWN]:
-            if can_move(player_pos[0], player_pos[2] + player_speed):
-                player_pos[2] += player_speed
-                score += 1
+            new_pos[2] += player_speed
+
+        if can_move(new_pos[0], new_pos[2]) and not is_obstacle(new_pos[0], new_pos[2]):
+            player_pos = new_pos
+            score += 1
+
+        if is_power_up(player_pos[0], player_pos[2]):
+            power_ups.remove([player_pos[0], 0, player_pos[2]])
+            score += 10
 
         # Check if player reached the end
         if player_pos == end_pos:
-            print(f'Congratulations! You completed the maze with a score of {score}!')
+            end_time = time.time()
+            total_time = end_time - start_time
+            print(f'Congratulations! You completed the maze with a score of {score} in {total_time:.2f} seconds!')
             pygame.quit()
             quit()
 
@@ -175,6 +207,8 @@ def main():
         draw_maze(wall_texture)
         draw_player(player_texture)
         draw_end_point()
+        draw_obstacles()
+        draw_power_ups()
         pygame.display.flip()
         pygame.time.wait(10)
 
