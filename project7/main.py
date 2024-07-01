@@ -80,14 +80,20 @@ def draw_cube(texture):
             glVertex3fv(vertices[vertex])
     glEnd()
 
-# Create a simple maze layout
+# Create a more complex maze layout
 maze_layout = np.array([
-    [1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 1, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
 ])
+
+# Define start and end points
+start_pos = [1, 0, 1]
+end_pos = [7, 0, 5]
 
 def draw_maze(wall_texture):
     for z, layer in enumerate(maze_layout):
@@ -99,7 +105,7 @@ def draw_maze(wall_texture):
                 glPopMatrix()
 
 # Player position
-player_pos = [2, 0, 2]
+player_pos = start_pos.copy()
 player_speed = 0.1
 
 def draw_player(player_texture):
@@ -107,6 +113,13 @@ def draw_player(player_texture):
     glTranslatef(player_pos[0], player_pos[1], player_pos[2])
     glColor3f(1, 1, 1)  # White color for player with texture
     draw_cube(player_texture)
+    glPopMatrix()
+
+def draw_end_point():
+    glPushMatrix()
+    glTranslatef(end_pos[0], end_pos[1], end_pos[2])
+    glColor3f(0, 1, 0)  # Green color for end point
+    draw_cube(0)
     glPopMatrix()
 
 # Check for collisions
@@ -126,6 +139,7 @@ def main():
     init()
     wall_texture = load_texture('textures/wall_texture.png')
     player_texture = load_texture('textures/player_texture.png')
+    score = 0
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -136,20 +150,31 @@ def main():
         if keys[pygame.K_LEFT]:
             if can_move(player_pos[0] - player_speed, player_pos[2]):
                 player_pos[0] -= player_speed
+                score += 1
         if keys[pygame.K_RIGHT]:
             if can_move(player_pos[0] + player_speed, player_pos[2]):
                 player_pos[0] += player_speed
+                score += 1
         if keys[pygame.K_UP]:
             if can_move(player_pos[0], player_pos[2] - player_speed):
                 player_pos[2] -= player_speed
+                score += 1
         if keys[pygame.K_DOWN]:
             if can_move(player_pos[0], player_pos[2] + player_speed):
                 player_pos[2] += player_speed
+                score += 1
+
+        # Check if player reached the end
+        if player_pos == end_pos:
+            print(f'Congratulations! You completed the maze with a score of {score}!')
+            pygame.quit()
+            quit()
 
         update_camera()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         draw_maze(wall_texture)
         draw_player(player_texture)
+        draw_end_point()
         pygame.display.flip()
         pygame.time.wait(10)
 
