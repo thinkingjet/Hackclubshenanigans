@@ -12,6 +12,23 @@ def init():
     gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
     glTranslatef(0.0, -1, -10)
     glEnable(GL_DEPTH_TEST)
+    glEnable(GL_TEXTURE_2D)
+    glEnable(GL_LIGHTING)
+    glEnable(GL_LIGHT0)
+    glLightfv(GL_LIGHT0, GL_POSITION, [0, 1, 1, 0])
+
+# Load texture from file
+def load_texture(filename):
+    texture_surface = pygame.image.load(filename)
+    texture_data = pygame.image.tostring(texture_surface, "RGB", True)
+    width, height = texture_surface.get_size()
+
+    texture = glGenTextures(1)
+    glBindTexture(GL_TEXTURE_2D, texture)
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_data)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+    return texture
 
 # Define the vertices and edges of a cube
 vertices = [
@@ -40,7 +57,23 @@ edges = (
     (3, 7)
 )
 
-def draw_cube():
+surfaces = (
+    (0, 1, 2, 3),
+    (3, 2, 6, 7),
+    (7, 6, 5, 4),
+    (4, 5, 1, 0),
+    (1, 5, 6, 2),
+    (4, 0, 3, 7)
+)
+
+def draw_cube(texture):
+    glBindTexture(GL_TEXTURE_2D, texture)
+    glBegin(GL_QUADS)
+    for surface in surfaces:
+        for vertex in surface:
+            glTexCoord2fv([(vertex % 2) * 1, ((vertex // 2) % 2) * 1])
+            glVertex3fv(vertices[vertex])
+    glEnd()
     glBegin(GL_LINES)
     for edge in edges:
         for vertex in edge:
@@ -56,23 +89,24 @@ maze_layout = np.array([
     [1, 1, 1, 1, 1]
 ])
 
-def draw_maze():
+def draw_maze(wall_texture):
     for z, layer in enumerate(maze_layout):
         for x, value in enumerate(layer):
             if value == 1:
                 glPushMatrix()
                 glTranslatef(x * 2, 0, z * 2)
-                draw_cube()
+                draw_cube(wall_texture)
                 glPopMatrix()
 
 # Player position
 player_pos = [2, 0, 2]
+player_speed = 0.1
 
-def draw_player():
+def draw_player(player_texture):
     glPushMatrix()
     glTranslatef(player_pos[0], player_pos[1], player_pos[2])
-    glColor3f(1, 0, 0)  # Red color for player
-    draw_cube()
+    glColor3f(1, 1, 1)  # White color for player with texture
+    draw_cube(player_texture)
     glPopMatrix()
 
 # Check for collisions
@@ -81,9 +115,17 @@ def can_move(x, z):
         return True
     return False
 
+# Update the camera to follow the player
+def update_camera():
+    glLoadIdentity()
+    gluPerspective(45, (800 / 600), 0.1, 50.0)
+    gluLookAt(player_pos[0], player_pos[1] + 1, player_pos[2] + 5, player_pos[0], player_pos[1], player_pos[2], 0, 1, 0)
+
 # Main loop
 def main():
     init()
+    wall_texture = load_texture('textures/wall_texture.png')
+    player_texture = load_texture('textures/player_texture.png')
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -92,21 +134,22 @@ def main():
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            if can_move(player_pos[0] - 0.1, player_pos[2]):
-                player_pos[0] -= 0.1
+            if can_move(player_pos[0] - player_speed, player_pos[2]):
+                player_pos[0] -= player_speed
         if keys[pygame.K_RIGHT]:
-            if can_move(player_pos[0] + 0.1, player_pos[2]):
-                player_pos[0] += 0.1
+            if can_move(player_pos[0] + player_speed, player_pos[2]):
+                player_pos[0] += player_speed
         if keys[pygame.K_UP]:
-            if can_move(player_pos[0], player_pos[2] - 0.1):
-                player_pos[2] -= 0.1
+            if can_move(player_pos[0], player_pos[2] - player_speed):
+                player_pos[2] -= player_speed
         if keys[pygame.K_DOWN]:
-            if can_move(player_pos[0], player_pos[2] + 0.1):
-                player_pos[2] += 0.1
+            if can_move(player_pos[0], player_pos[2] + player_speed):
+                player_pos[2] += player_speed
 
+        update_camera()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        draw_maze()
-        draw_player()
+        draw_maze(wall_texture)
+        draw_player(player_texture)
         pygame.display.flip()
         pygame.time.wait(10)
 
