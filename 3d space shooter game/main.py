@@ -1,9 +1,66 @@
+import pygame
+from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLU import *
 import random
+import math
+
+# Initialize Pygame and OpenGL
+def init():
+    pygame.init()
+    display = (800, 600)
+    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
+    gluPerspective(45, (display[0] / display[1]), 0.1, 100.0)
+    glTranslatef(0.0, 0.0, -30)
+    glEnable(GL_DEPTH_TEST)
+    pygame.font.init()
+
+# Draw the spaceship model
+def draw_spaceship():
+    glBegin(GL_TRIANGLES)
+    # Body of the spaceship
+    glColor3f(0.5, 0.5, 1.0)
+    glVertex3f(0, 1, 0)
+    glVertex3f(-1, -1, -1)
+    glVertex3f(1, -1, -1)
+
+    glVertex3f(0, 1, 0)
+    glVertex3f(1, -1, -1)
+    glVertex3f(1, -1, 1)
+
+    glVertex3f(0, 1, 0)
+    glVertex3f(1, -1, 1)
+    glVertex3f(-1, -1, 1)
+
+    glVertex3f(0, 1, 0)
+    glVertex3f(-1, -1, 1)
+    glVertex3f(-1, -1, -1)
+    glEnd()
+
+    glBegin(GL_QUADS)
+    # Bottom of the spaceship
+    glColor3f(0.3, 0.3, 0.6)
+    glVertex3f(-1, -1, -1)
+    glVertex3f(1, -1, -1)
+    glVertex3f(1, -1, 1)
+    glVertex3f(-1, -1, 1)
+    glEnd()
+
+# Define the background
+def draw_background():
+    glBegin(GL_QUADS)
+    glColor3f(0, 0, 0)  # Black background
+    glVertex3f(-50, -50, -100)
+    glVertex3f(50, -50, -100)
+    glVertex3f(50, 50, -100)
+    glVertex3f(-50, 50, -100)
+    glEnd()
 
 class Spaceship:
     def __init__(self, x, y, z):
         self.pos = [x, y, z]
         self.bullets = []
+        self.health = 100
 
     def draw(self):
         glPushMatrix()
@@ -23,7 +80,7 @@ class Spaceship:
     def shoot(self):
         bullet = Bullet(self.pos[0], self.pos[1], self.pos[2])
         self.bullets.append(bullet)
-        
+
 class Bullet:
     def __init__(self, x, y, z):
         self.pos = [x, y, z]
@@ -45,6 +102,7 @@ class Bullet:
 class Enemy:
     def __init__(self, x, y, z):
         self.pos = [x, y, z]
+        self.health = 3
 
     def draw(self):
         glPushMatrix()
@@ -59,59 +117,12 @@ class Enemy:
     def is_off_screen(self):
         return self.pos[2] > 10
 
-def draw_spaceship():
-    glBegin(GL_TRIANGLES)
-    
-    # Body of the spaceship
-    glColor3f(0.5, 0.5, 1.0)
-    glVertex3f(0, 1, 0)
-    glVertex3f(-1, -1, -1)
-    glVertex3f(1, -1, -1)
-
-    glVertex3f(0, 1, 0)
-    glVertex3f(1, -1, -1)
-    glVertex3f(1, -1, 1)
-
-    glVertex3f(0, 1, 0)
-    glVertex3f(1, -1, 1)
-    glVertex3f(-1, -1, 1)
-
-    glVertex3f(0, 1, 0)
-    glVertex3f(-1, -1, 1)
-    glVertex3f(-1, -1, -1)
-
-    glEnd()
-
-    glBegin(GL_QUADS)
-    
-    # Bottom of the spaceship
-    glColor3f(0.3, 0.3, 0.6)
-    glVertex3f(-1, -1, -1)
-    glVertex3f(1, -1, -1)
-    glVertex3f(1, -1, 1)
-    glVertex3f(-1, -1, 1)
-    
-    glEnd()
-
-# Initialize Pygame and OpenGL
-def init():
-    pygame.init()
-    display = (800, 600)
-    pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
-    gluPerspective(45, (display[0] / display[1]), 0.1, 100.0)
-    glTranslatef(0.0, 0.0, -30)
-    glEnable(GL_DEPTH_TEST)
-
-def draw_background():
-    glBegin(GL_QUADS)
-    
-    glColor3f(0, 0, 0)  # Black background
-    glVertex3f(-50, -50, -100)
-    glVertex3f(50, -50, -100)
-    glVertex3f(50, 50, -100)
-    glVertex3f(-50, 50, -100)
-    
-    glEnd()
+def render_text(text, pos):
+    font = pygame.font.Font(None, 36)
+    text_surface = font.render(text, True, (255, 255, 255))
+    text_data = pygame.image.tostring(text_surface, "RGBA", True)
+    glRasterPos3d(*pos, 0)
+    glDrawPixels(text_surface.get_width(), text_surface.get_height(), GL_RGBA, GL_UNSIGNED_BYTE, text_data)
 
 def main():
     init()
@@ -119,6 +130,7 @@ def main():
     spaceship = Spaceship(0, 0, 0)
     enemies = [Enemy(random.uniform(-5, 5), 0, random.uniform(-50, -10)) for _ in range(5)]
     spaceship_speed = 0.5
+    score = 0
 
     while True:
         for event in pygame.event.get():
@@ -176,9 +188,16 @@ def main():
                         abs(bullet.pos[1] - enemy.pos[1]) < 1 and
                         abs(bullet.pos[2] - enemy.pos[2]) < 1):
                     spaceship.bullets.remove(bullet)
-                    enemies.remove(enemy)
+                    enemy.health -= 1
+                    if enemy.health <= 0:
+                        enemies.remove(enemy)
+                        score += 10
                     break
         
+        # Display health and score
+        render_text(f"Health: {spaceship.health}", (-4, 5, 0))
+        render_text(f"Score: {score}", (2, 5, 0))
+
         # Update the display
         pygame.display.flip()
         pygame.time.wait(10)
