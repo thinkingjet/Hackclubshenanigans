@@ -22,14 +22,66 @@ def draw_ground():
     glVertex3f(-50, 0, 50)
     glEnd()
 
+# Draw the player model
+def draw_player(x, y, z):
+    glPushMatrix()
+    glTranslatef(x, y, z)
+    glColor3f(0.8, 0.3, 0.3)  # Red color for the player
+    glBegin(GL_QUADS)
+    # Front face
+    glVertex3f(-1, 0, 1)
+    glVertex3f(1, 0, 1)
+    glVertex3f(1, 2, 1)
+    glVertex3f(-1, 2, 1)
+    # Back face
+    glVertex3f(-1, 0, -1)
+    glVertex3f(1, 0, -1)
+    glVertex3f(1, 2, -1)
+    glVertex3f(-1, 2, -1)
+    # Left face
+    glVertex3f(-1, 0, -1)
+    glVertex3f(-1, 0, 1)
+    glVertex3f(-1, 2, 1)
+    glVertex3f(-1, 2, -1)
+    # Right face
+    glVertex3f(1, 0, -1)
+    glVertex3f(1, 0, 1)
+    glVertex3f(1, 2, 1)
+    glVertex3f(1, 2, -1)
+    # Top face
+    glVertex3f(-1, 2, -1)
+    glVertex3f(1, 2, -1)
+    glVertex3f(1, 2, 1)
+    glVertex3f(-1, 2, 1)
+    # Bottom face
+    glVertex3f(-1, 0, -1)
+    glVertex3f(1, 0, -1)
+    glVertex3f(1, 0, 1)
+    glVertex3f(-1, 0, 1)
+    glEnd()
+    glPopMatrix()
+
 def main():
     init()
+    
+    player_pos = [0, 0, 0]
+    player_speed = 0.5
     
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+        
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            player_pos[0] -= player_speed
+        if keys[pygame.K_RIGHT]:
+            player_pos[0] += player_speed
+        if keys[pygame.K_UP]:
+            player_pos[2] -= player_speed
+        if keys[pygame.K_DOWN]:
+            player_pos[2] += player_speed
         
         # Clear the screen and set up the perspective
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -44,6 +96,9 @@ def main():
         
         # Draw the ground
         draw_ground()
+        
+        # Draw the player
+        draw_player(player_pos[0], player_pos[1], player_pos[2])
 
         # Update the display
         pygame.display.flip()
