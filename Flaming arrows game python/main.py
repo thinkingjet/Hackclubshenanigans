@@ -109,52 +109,123 @@ def main():
     arrows = []
     arrow_speed = 1.0
     
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-        
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            player_pos[0] -= player_speed
-        if keys[pygame.K_RIGHT]:
-            player_pos[0] += player_speed
-        if keys[pygame.K_UP]:
-            player_pos[2] -= player_speed
-        if keys[pygame.K_DOWN]:
-            player_pos[2] += player_speed
-        if keys[pygame.K_SPACE]:
-            arrows.append([player_pos[0], player_pos[1] + 1, player_pos[2]])
+   # Update the main game loop
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+    
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        player_pos[0] -= player_speed
+    if keys[pygame.K_RIGHT]:
+        player_pos[0] += player_speed
+    if keys[pygame.K_UP]:
+        player_pos[2] -= player_speed
+    if keys[pygame.K_DOWN]:
+        player_pos[2] += player_speed
+    if keys[pygame.K_SPACE]:
+        arrows.append([player_pos[0], player_pos[1] + 1, player_pos[2]])
 
-        # Move arrows
-        for arrow in arrows:
-            arrow[2] -= arrow_speed
+    # Move arrows
+    for arrow in arrows:
+        arrow[2] -= arrow_speed
+        for target in targets:
+            if check_collision(arrow, target):
+                score += 10
+                targets.remove(target)
+                arrows.remove(arrow)
+                break
 
-        # Clear the screen and set up the perspective
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        glLoadIdentity()
-        
-        # Update the camera position
-        gluLookAt(
-            0, 10, 30,
-            0, 0, 0,
-            0, 1, 0
-        )
-        
-        # Draw the ground
-        draw_ground()
-        
-        # Draw the player
-        draw_player(player_pos[0], player_pos[1], player_pos[2])
-        
-        # Draw the arrows
-        for arrow in arrows:
-            draw_arrow(arrow[0], arrow[1], arrow[2])
+    # Clear the screen and set up the perspective
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
+    
+    # Update the camera position
+    gluLookAt(
+        0, 10, 30,
+        0, 0, 0,
+        0, 1, 0
+    )
+    
+    # Draw the ground
+    draw_ground()
+    
+    # Draw the player
+    draw_player(player_pos[0], player_pos[1], player_pos[2])
+    
+    # Draw the arrows
+    for arrow in arrows:
+        draw_arrow(arrow[0], arrow[1], arrow[2])
+    
+    # Draw the targets
+    for target in targets:
+        draw_target(target[0], target[1], target[2])
+    
+    # Draw the score
+    score_text = font.render(f'Score: {score}', True, (255, 255, 255))
+    score_surface = pygame.image.fromstring(score_text.tobytes(), score_text.get_size(), score_text.get_mode())
+    screen = pygame.display.get_surface()
+    screen.blit(score_surface, (10, 10))
 
-        # Update the display
-        pygame.display.flip()
-        pygame.time.wait(10)
+    # Update the display
+    pygame.display.flip()
+    pygame.time.wait(10)
+
+# Draw the target model
+def draw_target(x, y, z):
+    glPushMatrix()
+    glTranslatef(x, y, z)
+    glColor3f(0, 0, 1)  # Blue color for the target
+    glBegin(GL_QUADS)
+    # Front face
+    glVertex3f(-1, 0, 1)
+    glVertex3f(1, 0, 1)
+    glVertex3f(1, 2, 1)
+    glVertex3f(-1, 2, 1)
+    # Back face
+    glVertex3f(-1, 0, -1)
+    glVertex3f(1, 0, -1)
+    glVertex3f(1, 2, -1)
+    glVertex3f(-1, 2, -1)
+    # Left face
+    glVertex3f(-1, 0, -1)
+    glVertex3f(-1, 0, 1)
+    glVertex3f(-1, 2, 1)
+    glVertex3f(-1, 2, -1)
+    # Right face
+    glVertex3f(1, 0, -1)
+    glVertex3f(1, 0, 1)
+    glVertex3f(1, 2, 1)
+    glVertex3f(1, 2, -1)
+    # Top face
+    glVertex3f(-1, 2, -1)
+    glVertex3f(1, 2, -1)
+    glVertex3f(1, 2, 1)
+    glVertex3f(-1, 2, 1)
+    # Bottom face
+    glVertex3f(-1, 0, -1)
+    glVertex3f(1, 0, -1)
+    glVertex3f(1, 0, 1)
+    glVertex3f(-1, 0, 1)
+    glEnd()
+    glPopMatrix()
+# Main function variables
+targets = [
+    [10, 0, -50],
+    [-10, 0, -70],
+    [15, 0, -90]
+]
+score = 0
+font = pygame.font.SysFont('Arial', 25)
+# Collision detection function
+def check_collision(arrow, target):
+    return (
+        target[0] - 1 <= arrow[0] <= target[0] + 1 and
+        target[1] <= arrow[1] <= target[1] + 2 and
+        target[2] - 1 <= arrow[2] <= target[2] + 1
+    )
 
 if __name__ == "__main__":
     main()
