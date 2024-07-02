@@ -3,7 +3,6 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import random
-import math
 
 # Initialize Pygame and OpenGL
 def init():
@@ -61,6 +60,7 @@ class Spaceship:
         self.pos = [x, y, z]
         self.bullets = []
         self.health = 100
+        self.speed = 0.5
 
     def draw(self):
         glPushMatrix()
@@ -80,6 +80,14 @@ class Spaceship:
     def shoot(self):
         bullet = Bullet(self.pos[0], self.pos[1], self.pos[2])
         self.bullets.append(bullet)
+
+    def collect_power_up(self, power_up):
+        if power_up.type == "health":
+            self.health += 20
+            if self.health > 100:
+                self.health = 100
+        elif power_up.type == "speed":
+            self.speed += 0.2
 
 class Bullet:
     def __init__(self, x, y, z):
@@ -103,12 +111,62 @@ class Enemy:
     def __init__(self, x, y, z):
         self.pos = [x, y, z]
         self.health = 3
+        self.bullets = []
 
     def draw(self):
         glPushMatrix()
         glTranslatef(self.pos[0], self.pos[1], self.pos[2])
         glColor3f(1, 0, 0)
         glutSolidCube(1)
+        glPopMatrix()
+
+        # Draw bullets
+        for bullet in self.bullets:
+            bullet.draw()
+
+    def move(self):
+        self.pos[2] += 0.1
+        if random.random() < 0.01:
+            self.shoot()
+
+    def shoot(self):
+        bullet = EnemyBullet(self.pos[0], self.pos[1], self.pos[2])
+        self.bullets.append(bullet)
+
+    def is_off_screen(self):
+        return self.pos[2] > 10
+
+class EnemyBullet:
+    def __init__(self, x, y, z):
+        self.pos = [x, y, z]
+        self.speed = 0.5
+
+    def draw(self):
+        glPushMatrix()
+        glTranslatef(self.pos[0], self.pos[1], self.pos[2])
+        glColor3f(0, 1, 0)
+        glutSolidSphere(0.1, 10, 10)
+        glPopMatrix()
+
+    def move(self):
+        self.pos[2] += self.speed
+
+    def is_off_screen(self):
+        return self.pos[2] > 10
+
+class PowerUp:
+    def __init__(self, x, y, z, power_type):
+        self.pos = [x, y, z]
+        self.type = power_type
+
+    def draw(self):
+        glPushMatrix()
+        glTranslatef(self.pos[0], self.pos[1], self.pos[2])
+        if self.type == "health":
+            glColor3f(0, 1, 0)
+        elif self.type == "speed":
+            glColor3f(0, 0, 1)
+        glutSolidSphere(0.2, 10, 10)
         glPopMatrix()
 
     def move(self):
@@ -129,7 +187,7 @@ def main():
 
     spaceship = Spaceship(0, 0, 0)
     enemies = [Enemy(random.uniform(-5, 5), 0, random.uniform(-50, -10)) for _ in range(5)]
-    spaceship_speed = 0.5
+    power_ups = [PowerUp(random.uniform(-5, 5), 0, random.uniform(-50, -10), random.choice(["health", "speed"])) for _ in range(3)]
     score = 0
 
     while True:
@@ -142,13 +200,13 @@ def main():
         
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            spaceship.move(-spaceship_speed, 0, 0)
+            spaceship.move(-spaceship.speed, 0, 0)
         if keys[pygame.K_RIGHT]:
-            spaceship.move(spaceship_speed, 0, 0)
+            spaceship.move(spaceship.speed, 0, 0)
         if keys[pygame.K_UP]:
-            spaceship.move(0, 0, spaceship_speed)
+            spaceship.move(0, 0, spaceship.speed)
         if keys[pygame.K_DOWN]:
-            spaceship.move(0, 0, -spaceship_speed)
+            spaceship.move(0, 0, -spaceship.speed)
         
         # Clear the screen and set up the perspective
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -177,11 +235,23 @@ def main():
         for enemy in enemies:
             enemy.draw()
             enemy.move()
+            for bullet in enemy.bullets:
+                bullet.move()
         
-        # Remove enemies that are off-screen
+        # Remove enemies and their bullets that are off-screen
         enemies = [enemy for enemy in enemies if not enemy.is_off_screen()]
+        for enemy in enemies:
+            enemy.bullets = [bullet for bullet in enemy.bullets if not bullet.is_off_screen()]
 
-        # Check for collisions
+        # Draw and move power-ups
+        for power_up in power_ups:
+            power_up.draw()
+            power_up.move()
+        
+        # Remove power-ups that are off-screen
+        power_ups = [power_up for power_up in power_ups if not power_up.is_off_screen()]
+
+        # Check for collisions with bullets
         for bullet in spaceship.bullets:
             for enemy in enemies:
                 if (abs(bullet.pos[0] - enemy.pos[0]) < 1 and
@@ -193,6 +263,29 @@ def main():
                         enemies.remove(enemy)
                         score += 10
                     break
+        
+        # Check for collisions with enemy bullets
+        for enemy in enemies:
+            for bullet in enemy.bullets:
+                if (abs(bullet.pos[0] - spaceship.pos[0]) < 1 and
+                        abs(bullet.pos[1] - spaceship.pos[1]) < 1 and
+                        abs(bullet.pos[2] - spaceship.pos[2]) < 1):
+                    enemy.bullets.remove(bullet)
+                    spaceship.health -= 10
+                    if spaceship.health <= 0:
+                        print("Game Over!")
+                        pygame.quit()
+                        quit()
+                    break
+        
+        # Check for collisions with power-ups
+        for power_up in power_ups:
+            if (abs(power_up.pos[0] - spaceship.pos[0]) < 1 and
+                    abs(power_up.pos[1] - spaceship.pos[1]) < 1 and
+                    abs(power_up.pos[2] - spaceship.pos[2]) < 1):
+                spaceship.collect_power_up(power_up)
+                power_ups.remove(power_up)
+                break
         
         # Display health and score
         render_text(f"Health: {spaceship.health}", (-4, 5, 0))
