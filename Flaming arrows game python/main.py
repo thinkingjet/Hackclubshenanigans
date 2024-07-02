@@ -271,7 +271,7 @@ def draw_arrow(x, y, z, angle):
 arrows = []
 arrow_speed = 1.0
 arrow_rotation_speed = 10.0
-# Update the main game loop
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -289,6 +289,13 @@ while True:
         player_pos[2] += player_speed
     if keys[pygame.K_SPACE]:
         arrows.append([player_pos[0], player_pos[1] + 1, player_pos[2], 0])
+        for _ in range(10):  # Create 10 particles for the trail effect
+            particles.append(Particle(
+                [player_pos[0], player_pos[1] + 1, player_pos[2]],
+                [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)],
+                [1, random.uniform(0, 1), 0],
+                50
+            ))
 
     # Move and rotate arrows
     for arrow in arrows:
@@ -300,6 +307,52 @@ while True:
                 targets.remove(target)
                 arrows.remove(arrow)
                 break
+    
+    # Update particles
+    for particle in particles:
+        particle.update()
+        if particle.lifespan <= 0:
+            particles.remove(particle)
+
+    # Clear the screen and set up the perspective
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
+    
+    # Update the camera position
+    gluLookAt(
+        0, 10, 30,
+        0, 0, 0,
+        0, 1, 0
+    )
+    
+    # Draw the ground
+    draw_ground()
+    
+    # Draw the player
+    draw_player(player_pos[0], player_pos[1], player_pos[2])
+    
+    # Draw the arrows
+    for arrow in arrows:
+        draw_arrow(arrow[0], arrow[1], arrow[2], arrow[3])
+    
+    # Draw the targets
+    for target in targets:
+        draw_target(target[0], target[1], target[2])
+
+    # Draw the particles
+    for particle in particles:
+        particle.draw()
+    
+    # Draw the score
+    score_text = font.render(f'Score: {score}', True, (255, 255, 255))
+    score_surface = pygame.image.fromstring(score_text.tobytes(), score_text.get_size(), score_text.get_mode())
+    screen = pygame.display.get_surface()
+    screen.blit(score_surface, (10, 10))
+
+    # Update the display
+    pygame.display.flip()
+    pygame.time.wait(10)
+
 
     # Clear the screen and set up the perspective
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -335,6 +388,40 @@ while True:
     # Update the display
     pygame.display.flip()
     pygame.time.wait(10)
+# Particle class for the flaming arrow trail
+class Particle:
+    def __init__(self, position, velocity, color, lifespan):
+        self.position = position
+        self.velocity = velocity
+        self.color = color
+        self.lifespan = lifespan
+
+    def update(self):
+        self.position[0] += self.velocity[0]
+        self.position[1] += self.velocity[1]
+        self.position[2] += self.velocity[2]
+        self.lifespan -= 1
+
+    def draw(self):
+        glColor3f(self.color[0], self.color[1], self.color[2])
+        glBegin(GL_POINTS)
+        glVertex3f(self.position[0], self.position[1], self.position[2])
+        glEnd()
+# Main function variables
+arrows = []
+arrow_speed = 1.0
+arrow_rotation_speed = 10.0
+particles = []
+# Arrow shooting logic
+if keys[pygame.K_SPACE]:
+    arrows.append([player_pos[0], player_pos[1] + 1, player_pos[2], 0])
+    for _ in range(10):  # Create 10 particles for the trail effect
+        particles.append(Particle(
+            [player_pos[0], player_pos[1] + 1, player_pos[2]],
+            [random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1), random.uniform(-0.1, 0.1)],
+            [1, random.uniform(0, 1), 0],
+            50
+        ))
 
 
 if __name__ == "__main__":
