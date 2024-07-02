@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Food Tracker</title>
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/styles.min.css">
+</head>
+<body>
+  <div class="container no-padding">
+
+
+    <div id="start-screen" class="row">
+      <div class="col-xs-12 center-block">
+      <h1></h1>
+      <img src="images/list.png" alt="list">
+      <h1>Food Tracker</h1>
+      <button type="button" class="btn btn-success">Start App</button>
+      </div>
+    </div>
+
+
+    <main id="app" class="row row-centered no-gutter">
+
+      <section class="col-xs-6 col-centered eqHeights">
+
+        <ul id="app-tabs" class="nav nav-tabs">
+          <li role="presentation" class="active"><a id="tab1" href="#search">Search</a></li>
+          <li role="presentation"><a id="tab2" href="#tracker">Tracker</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+          <div role="tabpanel" class="tab-pane active" id="search">
+            <div id="search-top">
+              <header>
+                <h3>Food Search</h3>
+                <span class="btn-group">
+                  <button type="button" id="search-help" title="Help">
+                    <i class="glyphicon glyphicon-question-sign"></i>
+                  </button>
+                </span>
+              </header>
+  
+              <div class="alert alert-info" id="search-help-text">
+                <button type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true" class="glyphicon glyphicon-remove-circle"></span>
+                </button>
+                <h4><i class="glyphicon glyphicon-question-sign"></i> Help</h4>
+                <b>Search with autocomplete</b>
+                <ol>
+                  <li>While typing a drop menu with food suggestions will display.</li>
+                  <li>Select an option to search.</li>
+                </ol>
+                <b>Close the autocomplete</b>
+                <ol>
+                  <li>Press Esc or</li>
+                  <li>Click outside the search box or</li>
+                  <li>Click the <i class="glyphicon glyphicon-remove-circle"></i> clear button</li>
+                </ol>
+              </div>
+      
