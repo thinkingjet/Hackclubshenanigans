@@ -61,6 +61,7 @@ class Spaceship:
         self.bullets = []
         self.health = 100
         self.speed = 0.5
+        self.active_power_ups = []
 
     def draw(self):
         glPushMatrix()
@@ -88,6 +89,7 @@ class Spaceship:
                 self.health = 100
         elif power_up.type == "speed":
             self.speed += 0.2
+        self.active_power_ups.append(power_up.type)
 
 class Bullet:
     def __init__(self, x, y, z):
@@ -230,7 +232,7 @@ def main():
         
         # Remove bullets that are off-screen
         spaceship.bullets = [bullet for bullet in spaceship.bullets if not bullet.is_off_screen()]
-
+        
         # Draw and move enemies
         for enemy in enemies:
             enemy.draw()
@@ -242,7 +244,7 @@ def main():
         enemies = [enemy for enemy in enemies if not enemy.is_off_screen()]
         for enemy in enemies:
             enemy.bullets = [bullet for bullet in enemy.bullets if not bullet.is_off_screen()]
-
+        
         # Draw and move power-ups
         for power_up in power_ups:
             power_up.draw()
@@ -250,7 +252,7 @@ def main():
         
         # Remove power-ups that are off-screen
         power_ups = [power_up for power_up in power_ups if not power_up.is_off_screen()]
-
+        
         # Check for collisions with bullets
         for bullet in spaceship.bullets:
             for enemy in enemies:
@@ -290,6 +292,10 @@ def main():
         # Display health and score
         render_text(f"Health: {spaceship.health}", (-4, 5, 0))
         render_text(f"Score: {score}", (2, 5, 0))
+
+        # Display active power-ups
+        if spaceship.active_power_ups:
+            render_text(f"Power-Ups: {', '.join(spaceship.active_power_ups)}", (0, 6, 0))
 
         # Update the display
         pygame.display.flip()
