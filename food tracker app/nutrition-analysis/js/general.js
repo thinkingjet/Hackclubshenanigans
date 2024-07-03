@@ -231,3 +231,159 @@ $(document).ready(function() {
 						'	</table>'+
 						'	<p class="small-info" id="small-nutrition-info">*Percent Daily Values are based on a 2000 calorie diet</p>'+
 						'</section>');
+
+                if(data.ingredients != ""){
+              		$.each(data.ingredients, function(i) {
+
+                      if(typeof(data.ingredients[i].parsed) != "undefined"){
+                      
+                        if (typeof(data.ingredients[i].parsed[0].quantity) != "undefined") {
+                            quantity = data.ingredients[i].parsed[0].quantity;
+                        } else {quantity = '-'};
+                        if (typeof(data.ingredients[i].parsed[0].measure) != "undefined") {
+                            measure = data.ingredients[i].parsed[0].measure;
+                        } else {measure = '-'};
+                        if (typeof(data.ingredients[i].parsed[0].foodMatch) != "undefined") {
+                            foodMatch = data.ingredients[i].parsed[0].foodMatch;
+                        } else {foodMatch = '-'}; 
+                      	if (typeof(data.ingredients[i].parsed[0].weight) != "undefined") {
+                            weight = data.ingredients[i].parsed[0].weight;
+                        } else {weight = '-'};
+                      	if (typeof(data.ingredients[i].parsed[0].nutrients.ENERC_KCAL) != "undefined") {
+                            cal = data.ingredients[i].parsed[0].nutrients.ENERC_KCAL.quantity;
+                          	unit = data.ingredients[i].parsed[0].nutrients.ENERC_KCAL.unit;
+                        } else {cal = '-'};  
+                      
+                        html += '<tr>'+
+                                '	<th>'+quantity+'</th>'+
+                                '   <th>'+measure+'</th>'+
+                                '   <th>'+foodMatch+'</th>'+
+                                '   <th>'+Math.round(cal*10)/10+' '+unit+'</th>'+ 
+                          		'   <th>'+Math.round(weight*10)/10+' g</th>'+ 
+                                '</tr>';
+                      } else {
+                      	err = '<span class="addition-e">We cannot calculate the nutrition for some ingredients. Please check the ingredient spelling or if you have entered a quantities for the ingredients.</span>';
+                      }
+                    });
+                }
+				$(".demo-result").append(html);
+              	$(".demo-result-label").append($msg);
+				$(".err-result").append(err);
+              	$(".col-demo-facts").removeClass('col-demo-facts').addClass('col-demo-facts-auto');
+              
+              	$('.calc-analysis-api-new').css('display', 'inline-block');
+				$('.loading-area').css('display', 'none');
+				$('.content-area').css('display', 'inherit');              
+			},
+			error: function () {
+              
+              	err = '<span class="addition-e">We had a problem analysing this. Please check the ingredient spelling or if you have entered a quantities for the ingredients.</span>';
+              	$(".err-result").append(err);
+
+				$('.loading-area').css('display', 'none');
+				$('.content-area').css('display', 'inherit');        
+			}        
+		});	
+    });	  
+  
+    $('#collapse1').on('show.bs.collapse', function () {
+        $('#heading1').css('display', 'none');
+    })
+    $('#collapse2').on('show.bs.collapse', function () {
+        $('#heading2').css('display', 'none');
+    })
+    $('#collapse3').on('show.bs.collapse', function () {
+        $('#heading3').css('display', 'none');
+    })
+    $('#collapse4').on('show.bs.collapse', function () {
+        $('#heading4').css('display', 'none');
+    })
+    $('#collapse5').on('show.bs.collapse', function () {
+        $('#heading5').css('display', 'none');
+    })
+    $('#collapse6').on('show.bs.collapse', function () {
+        $('#heading6').css('display', 'none');
+    })    
+
+  
+    function foodDBCall(ingrData) {
+      	var cal, pro, fat, carbs, quantity, mlabel, flabel, brand, img;
+		var errMsg 		= '';
+		var result 		= '';
+
+        var param = encodeURI(ingrData);
+            param = param.replace("+", "%2B");
+      
+		$.ajax({
+			url: 'https://api.edamam.com/api/food-database/parser?nutrition-type=logging&app_id=07d50733&app_key=80fcb49b500737827a9a23f7049653b9',
+			type: 'GET',
+          	data: param,
+			//data: {ingr: ingrData},
+			success: function(data) {
+				console.log(data.parsed);
+				if(data.hints == ""){
+					result =	'<h4>Food Database</h4>'+
+								'<span class="addition-e">Ooops, nothing in our database matches what you are searching for. Please try again</span>';
+					$(".foodresult").append(result);
+				} else if(data.hints != "") {
+					result =	'<h4>Food Database</h4>'+
+								'<table class="table-res-recipe">'+
+								'  <thead>'+
+								'    <tr>'+
+								'      <th>Image</th>'+
+								'      <th>Qty</th>'+
+								'      <th>Unit</th>'+
+								'      <th class="col-6">Food</th>'+
+								'      <th>Energy</th>'+
+								'      <th class="col-2">Nutrients</th>'+
+								'    </tr>'+
+								'  </thead>'+
+								'  <tbody>';
+							
+						$.each(data.hints, function(i) {
+							if (i > 9) {return false};
+							if (typeof(data.hints[i].food.nutrients.ENERC_KCAL) != "undefined") {
+								cal = '<b>'+Math.floor(data.hints[i].food.nutrients.ENERC_KCAL)+' kcal</b>';
+							} else {cal = ''}
+							if (typeof(data.hints[i].food.nutrients.PROCNT) != "undefined") {
+								pro = 'Protein: <b class="mes">'+Math.floor(data.hints[i].food.nutrients.PROCNT)+' g</b></br>';
+							} else {pro = ''}
+							if (typeof(data.hints[i].food.nutrients.FAT) != "undefined") {
+								fat = 'Fat: <b class="mes">'+Math.floor(data.hints[i].food.nutrients.FAT)+' g</b></br>';
+							} else {fat = ''}
+							if (typeof(data.hints[i].food.nutrients.CHOCDF) != "undefined") {
+								carbs = 'Carbs: <b class="mes">'+Math.floor(data.hints[i].food.nutrients.CHOCDF)+' g</b></br>';
+							} else {carbs = ''}
+
+							if (typeof(data.hints[i].food.brand) != "undefined") {
+								brand = data.hints[i].food.brand+' - ';
+							} else {brand = ''}
+							if (typeof(data.hints[i].food.label) != "undefined") {
+								flabel = data.hints[i].food.label;
+							} else {flabel = ''}   
+							if (typeof(data.hints[i].food.image) != "undefined") {
+								img = data.hints[i].food.image;
+							} else {img = 'https://developer.edamam.com/images/food.png'} 							
+
+							result += 	'<tr>'+
+										'	<th><img src="'+img+'"></th>'+
+										'	<th>100</th>'+
+										'   <th>g</th>'+
+										'   <th>'+brand+flabel+'</th>'+
+										'   <th>'+cal+'</th>'+
+										'   <th class="last">'+pro+fat+carbs+'</th>'+           
+										'</tr>';                        
+
+						});
+					
+						result +=	'	</tbody>'+
+									'</table>';
+						$(".foodresult").append(result);
+						
+				}
+				$('.loading-area').css('display', 'none');
+				$('.result-area').css('display', 'block');
+			}
+		});	
+    }  
+  
