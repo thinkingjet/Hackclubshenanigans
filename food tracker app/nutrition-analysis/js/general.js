@@ -387,3 +387,153 @@ $(document).ready(function() {
 		});	
     }  
   
+
+    $('.analyze-demo').on("click", function() {
+      	var q 			= '',
+            healt 		= '', 
+            diet 		= '',
+            calories	= '',
+            nutrients	= '';
+      
+      	if($('.search.q').val() != ''){
+          	q = "q="+$('.search.q').val();
+        } else {
+        	$('.search.q').parent('.card-body').addClass('err');
+        	$('#heading1').css('display', 'none');
+        	$('#collapse1').addClass('in');
+          	exit;
+        }
+      
+        $('input.healt:checked').each(function () {
+          	healt += "&health="+$(this).val();
+        });
+        $('input.diet:checked').each(function () {
+          	diet += "&diet="+$(this).val();
+        });
+      	if($('.search.cal').val() != ''){
+      		calories = "&calories="+$('.search.cal').val();
+        }
+        $('input.nutrient:checked').each(function () {
+          	var min = $(this).parent('.checkbox-button').find('.min').val();
+          	var max = $(this).parent('.checkbox-button').find('.max').val();
+          	var range = '';
+          	if((min!='')&&(max!='')){
+            	range = min+'-'+max;
+            } else if((min!='')&&(max=='')){
+              	range = min+'+';
+            } else if((min=='')&&(max!='')){
+              	range = max;
+            } else if((min=='')&&(max=='')){
+            	range = '';
+            }
+          	
+          	if(range != ''){
+            	nutrients += "&nutrients["+$(this).val()+"]="+range;
+            } else {
+                $('#collapse5').find('.card-body').addClass('err');
+                $('#heading5').css('display', 'none');
+                $('#collapse5').addClass('in');
+                exit;              
+            }
+        });
+		
+      	$('.content-area').css('display', 'none');
+      	$('.loading-area').css('display', 'block');
+      
+      	$(".result-area").html('');
+      	var cal, pro, fat, carbs, img, ingrd, ingr, srv;
+      	var html = '<div class="back"><span class="glyphicon glyphicon-chevron-left"></span> Change Search Parameters</div>'+
+            	   '<h1>Search Results</h1>'+
+				   '<div class="foodresult"></div>'+
+            	   '<h4>Recipes</h4>'; 
+      
+        var param = encodeURI(q+healt+diet+calories+nutrients);
+            param = param.replace("+", "%2B");
+      
+		$.ajax({
+			url: 'https://api.edamam.com/search?app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9',
+			type: 'GET',
+			data: param,
+			success: function(data) {
+				
+				if(data.hits != "") {
+
+					html += '<table class="table-res-recipe">'+
+							'  <thead>'+
+							'    <tr>'+
+							'      <th>Image</th>'+
+							'      <th>Qty</th>'+
+							'      <th>Unit</th>'+                      
+							'      <th class="col-6">Title</th>'+
+							'      <th>Energy</th>'+
+							'      <th class="col-2">Nutrients</th>'+          
+							'    </tr>'+
+							'  </thead>'+
+							'  <tbody>';					
+
+					$.each(data.hits, function(i) {
+						if (i > 5) {return false};
+
+						if (typeof(data.hits[i].recipe.image) != "undefined") {
+							img = '<img src="'+data.hits[i].recipe.image+'">';
+						} else {img = ''}
+
+						if (typeof(data.hits[i].recipe.yield) != "undefined") {
+							srv = Math.round(data.hits[i].recipe.yield);
+						} else {srv = '-'}
+                      
+						if (typeof(data.hits[i].recipe.label) != "undefined") {
+                          	ingr = data.hits[i].recipe.label;
+							//ingrd = data.hits[i].recipe.ingredientLines;
+							//ingr = ingrd.toString().replace(/\,/g,'</br>');
+						} else {ingr = '-'}
+						
+						if (typeof(data.hits[i].recipe.totalNutrients.ENERC_KCAL.quantity) != "undefined") {
+							cal = '<b>'+Math.floor(data.hits[i].recipe.totalNutrients.ENERC_KCAL.quantity)+' kcal</b>';
+						} else {cal = ''}
+						if (typeof(data.hits[i].recipe.totalNutrients.PROCNT.quantity) != "undefined") {
+							pro = 'Protein: <b class="mes">'+Math.floor(data.hits[i].recipe.totalNutrients.PROCNT.quantity)+' g</b></br>';
+						} else {pro = ''}
+						if (typeof(data.hits[i].recipe.totalNutrients.FAT.quantity) != "undefined") {
+							fat = 'Fat: <b class="mes">'+Math.floor(data.hits[i].recipe.totalNutrients.FAT.quantity)+' g</b></br>';
+						} else {fat = ''}
+						if (typeof(data.hits[i].recipe.totalNutrients.CHOCDF) != "undefined") {
+							carbs = 'Carbs: <b class="mes">'+Math.floor(data.hits[i].recipe.totalNutrients.CHOCDF.quantity)+' g</b></br>';
+						} else {carbs = ''}
+
+						html += '<tr>'+
+								'	<th>'+img+'</th>'+
+                          		'	<th>'+srv+'</th>'+
+                          		'	<th>servings</th>'+
+								'   <th>'+ingr+'</th>'+
+								'   <th>'+cal+'</th>'+
+								'   <th class="last">'+pro+fat+carbs+'</th>'+           
+								'</tr>';
+					});
+					
+					html += '	</tbody>'+
+							'</table>';
+				  
+					$(".result-area").append(html);
+					//$('.loading-area').css('display', 'none');
+					//$('.result-area').css('display', 'block');
+				  
+				} else {					
+					html += '<span class="addition-e">Ooops, nothing in our database matches what you are searching for. Please try again</span>';	
+							
+					$(".result-area").append(html);
+					//$('.loading-area').css('display', 'none');
+					//$('.result-area').css('display', 'block');
+					//$('.noresult-area').css('display', 'block');				
+				}
+              
+				foodDBCall('ingr='+$('.search.q').val()+healt+diet+calories+nutrients);
+				
+			}
+		});
+
+    });	
+  	$('.calc-analysis-api-new').on("click", function() {
+    	location.reload();
+    });
+});
