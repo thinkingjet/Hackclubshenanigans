@@ -62,3 +62,42 @@
                 </ol>
               </div>
       
+              <form id="search-suggest" autocomplete="off"></form>
+            </div>
+            <div id="search-results"></div>
+            <div id="recipe-top">
+              <h3>Recipe Suggestions</h3>
+              <span id="recipe-close" class="glyphicon glyphicon-remove-circle"></span>
+            </div>
+            <div id="recipe-results"></div>
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="tracker">
+            <div id="tracker-top">
+              <header>
+                <h3>Food Tracker</h3>
+              
+                <div class="btn-group">
+                  <button id="dtDisplay" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Options">
+                    <i class="glyphicon glyphicon-cog"></i>
+                  </button>
+                  <ul class="dropdown-menu options">
+                    <li><a id="optDate" href="#date">Display by date</a></li>
+                    <li><a id="optAll" href="#all">Display all</a></li>
+                  </ul>
+                </div>
+              </header>
+             
+              <div id="dtContainer">
+                <i id="dtBack" class="glyphicon glyphicon-triangle-left"></i>
+                <input id="dtPicker" class="btn btn-default btn-xs" type="text">
+                <i id="dtForward" class="glyphicon glyphicon-triangle-right"></i>
+              </div>
+            </div>
+            <div id="tracker-results">
+              <p>Nothing is being tracked yet</p>
+              <p>Search and add food items</p>
+            </div>
+          </div>
+        </div>
+      </section>
