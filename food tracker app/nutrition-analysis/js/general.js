@@ -102,3 +102,132 @@ $(document).ready(function() {
 			if (typeof(data.totalNutrients.SUGAR) != "undefined") {
 				SUGAR = Math.round(data.totalNutrients.SUGAR.quantity*10)/10+' '+data.totalNutrients.SUGAR.unit;
 			} else {SUGAR = '-'};
+
+			if (typeof(data.totalNutrients.SUGARadded) != "undefined") {
+				SUGARadded = Math.round(data.totalNutrients.SUGARadded.quantity*10)/10+' '+data.totalNutrients.SUGARadded.unit;
+			} else {SUGARadded = '-'};
+
+			if (typeof(data.totalNutrients.PROCNT) != "undefined") {
+				PROCNT = Math.round(data.totalNutrients.PROCNT.quantity*10)/10+' '+data.totalNutrients.PROCNT.unit;
+			} else {PROCNT = '-'};
+			if (typeof(data.totalDaily.PROCNT) != "undefined") {
+				totalDailyPROCNT = Math.round(data.totalDaily.PROCNT.quantity)+' '+data.totalDaily.PROCNT.unit;
+			} else {totalDailyPROCNT = '-'};	
+
+			if (typeof(data.totalNutrients.VITD) != "undefined") {
+				VITD = Math.round(data.totalNutrients.VITD.quantity*10)/10+' '+data.totalNutrients.VITD.unit;
+			} else {VITD = '-'};
+			if (typeof(data.totalDaily.VITD) != "undefined") {
+				totalDailyVITD = Math.round(data.totalDaily.VITD.quantity)+' '+data.totalDaily.VITD.unit;
+			} else {totalDailyVITD = '-'};	
+
+			if (typeof(data.totalNutrients.CA) != "undefined") {
+				CA = Math.round(data.totalNutrients.CA.quantity*10)/10+' '+data.totalNutrients.CA.unit;
+			} else {CA = '-'};
+			if (typeof(data.totalDaily.CA) != "undefined") {
+				totalDailyCA = Math.round(data.totalDaily.CA.quantity)+' '+data.totalDaily.CA.unit;
+			} else {totalDailyCA = '-'};	
+
+			if (typeof(data.totalNutrients.FE) != "undefined") {
+				FE = Math.round(data.totalNutrients.FE.quantity*10)/10+' '+data.totalNutrients.FE.unit;
+			} else {FE = '-'};
+			if (typeof(data.totalDaily.FE) != "undefined") {
+				totalDailyFE = Math.round(data.totalDaily.FE.quantity)+' '+data.totalDaily.FE.unit;
+			} else {totalDailyFE = '-'};	
+			
+			if (typeof(data.totalNutrients.K) != "undefined") {
+				K = Math.round(data.totalNutrients.K.quantity*10)/10+' '+data.totalNutrients.K.unit;
+			} else {K = '-'};
+			if (typeof(data.totalDaily.K) != "undefined") {
+				totalDailyK = Math.round(data.totalDaily.K.quantity)+' '+data.totalDaily.K.unit;
+			} else {totalDailyK = '-'};
+
+			var $msg = $('<div class="col-12"></div>');
+			$msg.append('<section class="performance-facts" id="performance-facts">'+
+						'	<div class="performance-facts__header">'+
+						'		<h1 class="performance-facts__title">Nutrition Facts</h1>'+
+						'		<p><span id="lnumser">0</span> servings per container</p>'+
+						'	</div>'+
+						'	<table class="performance-facts__table">'+
+						'		<thead>'+
+						'			<tr>'+
+						'				<th colspan="3" class="amps">Amount Per Serving</th>'+
+						'			</tr>'+
+						'		</thead>'+
+						'		<tbody>'+
+						'			<tr>'+
+						'				<th colspan="2" id="lkcal-val-cal"><b>Calories</b></th>'+
+						'				<td class="nob">'+totalCal+'</td>'+
+						'			</tr>'+
+						'			<tr class="thick-row">'+
+						'				<td colspan="3" class="small-info"><b>% Daily Value*</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<th colspan="2"><b>Total Fat</b> '+FAT+'</th>'+
+						'				<td><b>'+totalDailyFAT+'</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<td class="blank-cell"></td>'+
+						'				<th>Saturated Fat '+FASAT+'</th>'+
+						'				<td><b>'+totalDailyFASAT+'</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<td class="blank-cell"></td>'+
+						'				<th>Trans Fat '+FATRN+'</th>'+
+						'				<td></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<th colspan="2"><b>Cholesterol</b> '+CHOLE+'</th>'+
+						'				<td><b>'+totalDailyCHOLE+'</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<th colspan="2"><b>Sodium</b> '+NA+'</th>'+
+						'				<td><b>'+totalDailyNA+'</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<th colspan="2"><b>Total Carbohydrate</b> '+CHOCDF+'</th>'+
+						'				<td><b>'+totalDailyCHOCDF+'</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<td class="blank-cell"></td>'+
+						'				<th>Dietary Fiber '+FIBTG+'</th>'+
+						'				<td><b>'+totalDailyFIBTG+'</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<td class="blank-cell"></td>'+
+						'				<th>Total Sugars '+SUGAR+'</th>'+
+						'				<td></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<td class="blank-cell"></td>'+
+						'				<th>Includes '+SUGARadded+' Added Sugars</th>'+
+						'				<td></td>'+
+						'			</tr>'+	  
+						'			<tr class="thick-end">'+
+						'				<th colspan="2"><b>Protein</b> '+PROCNT+'</th>'+
+						'				<td><b>'+totalDailyPROCNT+'</b></td>'+
+						'			</tr>'+
+						'		</tbody>'+
+						'	</table>'+
+						'	<table class="performance-facts__table--grid">'+
+						'		<tbody>'+
+						'			<tr>'+			  
+						'				<th>Vitamin D '+VITD+'</th>'+
+						'				<td><b>'+totalDailyVITD+'</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<th>Calcium '+CA+'</th>'+
+						'				<td><b>'+totalDailyCA+'</b></td>'+
+						'			</tr>'+
+						'			<tr>'+
+						'				<th>Iron '+FE+'</th>'+
+						'				<td><b>'+totalDailyFE+'</b></td>'+			  
+						'			</tr>'+
+						'			<tr class="thin-end">'+
+						'				<th>Potassium '+K+'</th>'+
+						'				<td><b>'+totalDailyK+'</b></td>'+
+						'			</tr>'+
+						'		</tbody>'+
+						'	</table>'+
+						'	<p class="small-info" id="small-nutrition-info">*Percent Daily Values are based on a 2000 calorie diet</p>'+
+						'</section>');
