@@ -163,3 +163,76 @@ nav ul li a:hover {
     color: #fff;
     border-radius: 5px;
 }
+/* Responsive design */
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .intro, .features, .screenshots {
+        padding: 10px;
+    }
+
+    .screenshot img {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    #countdown {
+        font-size: 1.2em;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    nav ul {
+        flex-direction: row;
+    }
+
+    nav ul li {
+        margin: 0 10px;
+    }
+
+    .screenshot img {
+        width: 90%;
+        margin: 10px;
+    }
+}
+
+/* Desktop styles */
+@media (min-width: 1025px) {
+    header h1 {
+        font-size: 2.5em;
+    }
+
+    nav ul {
+        flex-direction: row;
+    }
+
+    nav ul li {
+        margin: 0 15px;
+    }
+
+    .screenshot img {
+        width: 80%;
+        margin: 20px;
+    }
+}
