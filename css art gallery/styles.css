@@ -134,3 +134,88 @@ footer {
     0%, 100% { transform: translateX(0); }
     50% { transform: translateX(-50%); }
 }
+/* Enhanced details for the sunset art piece */
+.sunset .sun {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #F09819, #FF512F);
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    animation: sunMove 10s infinite alternate;
+}
+
+@keyframes sunMove {
+    0% { bottom: 20px; }
+    100% { bottom: 50px; }
+}
+
+/* Enhanced details for the mountains art piece */
+.mountains .peak1,
+.mountains .peak2 {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    bottom: 0;
+}
+
+.mountains .peak1 {
+    border-width: 0 150px 100px 150px;
+    border-color: transparent transparent #6b7a8f transparent;
+    left: 20%;
+}
+
+.mountains .peak2 {
+    border-width: 0 100px 70px 100px;
+    border-color: transparent transparent #4b5a6f transparent;
+    left: 50%;
+}
+
+.mountains .snow1,
+.mountains .snow2 {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+}
+
+.mountains .snow1 {
+    border-width: 0 50px 30px 50px;
+    border-color: transparent transparent #fff transparent;
+    left: 21%;
+}
+
+.mountains .snow2 {
+    border-width: 0 30px 20px 30px;
+    border-color: transparent transparent #fff transparent;
+    left: 51%;
+}
+
+/* Enhanced details for the ocean art piece */
+.ocean .wave1,
+.ocean .wave2 {
+    content: '';
+    width: 100%;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    animation: wave 4s infinite ease-in-out;
+}
+
+.ocean .wave2 {
+    bottom: 10px;
+    animation-delay: -2s;
+}
+
+@keyframes wave {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-50%); }
+}
