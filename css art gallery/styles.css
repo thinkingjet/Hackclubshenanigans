@@ -219,3 +219,101 @@ footer {
     0%, 100% { transform: translateX(0); }
     50% { transform: translateX(-50%); }
 }
+/* Forest art piece */
+.forest {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to top, #1e3c72, #2a5298);
+    position: relative;
+    border-radius: 8px;
+}
+
+.forest::before,
+.forest::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+    bottom: 0;
+}
+
+.forest::before {
+    border-width: 0 50px 100px 50px;
+    border-color: transparent transparent #3b5323 transparent;
+    left: 25%;
+}
+
+.forest::after {
+    border-width: 0 70px 140px 70px;
+    border-color: transparent transparent #228b22 transparent;
+    left: 55%;
+}
+
+/* Night sky art piece */
+.night-sky {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to top, #000428, #004e92);
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.night-sky::before {
+    content: '';
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    animation: twinkle 2s infinite ease-in-out;
+}
+
+.night-sky::after {
+    content: '';
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #fff, 0 0 10px #fff;
+    animation: twinkle 2s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Cityscape art piece */
+.cityscape {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to top, #0f2027, #203a43, #2c5364);
+    position: relative;
+    border-radius: 8px;
+}
+
+.cityscape::before,
+.cityscape::after {
+    content: '';
+    width: 40px;
+    height: 100px;
+    background: #333;
+    position: absolute;
+    bottom: 0;
+}
+
+.cityscape::before {
+    left: 30%;
+}
+
+.cityscape::after {
+    left: 60%;
+}
