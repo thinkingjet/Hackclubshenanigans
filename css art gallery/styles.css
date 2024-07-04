@@ -317,3 +317,44 @@ footer {
 .cityscape::after {
     left: 60%;
 }
+/* Hover effects for art pieces */
+.art-piece:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+.art-piece:hover .sunset {
+    background: linear-gradient(to top, #F09819, #FF512F);
+}
+
+.art-piece:hover .mountains::before,
+.art-piece:hover .mountains::after {
+    border-color: transparent transparent #839788 transparent;
+}
+
+.art-piece:hover .forest::before,
+.art-piece:hover .forest::after {
+    border-color: transparent transparent #4B5320 transparent;
+}
+
+.art-piece:hover .night-sky::before,
+.art-piece:hover .night-sky::after {
+    box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+}
+
+.art-piece:hover .cityscape::before,
+.art-piece:hover .cityscape::after {
+    background: #555;
+}
+/* Styles for titles and descriptions */
+.art-piece h2 {
+    margin: 0.5em 0 0.2em;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.art-piece p {
+    margin: 0;
+    font-size: 1em;
+    color: #666;
+}
