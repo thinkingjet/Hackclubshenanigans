@@ -308,3 +308,36 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
+/* Animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animated {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+/* Animation delay for different sections */
+.animated.delay-1 {
+    animation-delay: 0.5s;
+}
+
+.animated.delay-2 {
+    animation-delay: 1s;
+}
+
+.animated.delay-3 {
+    animation-delay: 1.5s;
+}
+
+.animated.delay-4 {
+    animation-delay: 2s;
+}
