@@ -204,3 +204,55 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial display
     showCarouselItem(currentIndex);
 });
+document.addEventListener('DOMContentLoaded', () => {
+    // Existing code...
+
+    // Modal functionality
+    const modal = document.getElementById('announcement-modal');
+    const btn = document.getElementById('announcement-btn');
+    const span = document.getElementsByClassName('close-btn')[0];
+
+    btn.addEventListener('click', () => {
+        modal.style.display = 'block';
+    });
+
+    span.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Carousel functionality
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    let currentIndex = 0;
+
+    const showCarouselItem = (index) => {
+        carouselItems.forEach((item, idx) => {
+            if (idx === index) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    };
+
+    const showNextItem = () => {
+        currentIndex = (currentIndex + 1) % carouselItems.length;
+        showCarouselItem(currentIndex);
+    };
+
+    const showPreviousItem = () => {
+        currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+        showCarouselItem(currentIndex);
+    };
+
+    document.getElementById('next').addEventListener('click', showNextItem);
+    document.getElementById('prev').addEventListener('click', showPreviousItem);
+
+    // Initial display
+    showCarouselItem(currentIndex);
+});
