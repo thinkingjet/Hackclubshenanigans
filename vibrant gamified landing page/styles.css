@@ -341,3 +341,54 @@ button[type="submit"]:hover {
 .animated.delay-4 {
     animation-delay: 2s;
 }
+/* Video background */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ensure content is readable over the video background */
+body {
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+}
+
+header, main, footer {
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent background for sections */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Ensure the animated-bg is behind the content */
+.animated-bg {
+    z-index: -1;
+}
+
+/* Adjusted styles for contact form */
+.contact {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    margin: 20px 0;
+}
