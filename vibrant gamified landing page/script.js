@@ -119,3 +119,36 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Initial call to animate elements already in view
 });
+document.addEventListener('DOMContentLoaded', () => {
+    // Existing code...
+
+    // Carousel functionality
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    let currentIndex = 0;
+
+    const showCarouselItem = (index) => {
+        carouselItems.forEach((item, idx) => {
+            if (idx === index) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    };
+
+    const showNextItem = () => {
+        currentIndex = (currentIndex + 1) % carouselItems.length;
+        showCarouselItem(currentIndex);
+    };
+
+    const showPreviousItem = () => {
+        currentIndex = (currentIndex - 1 + carouselItems.length) % carouselItems.length;
+        showCarouselItem(currentIndex);
+    };
+
+    document.getElementById('next').addEventListener('click', showNextItem);
+    document.getElementById('prev').addEventListener('click', showPreviousItem);
+
+    // Initial display
+    showCarouselItem(currentIndex);
+});
